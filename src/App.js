@@ -33,6 +33,7 @@ class App extends React.Component {
       contracts: [
         {
           contractId: "12345L",
+          type: 123,
           timestamp: 123,
           senderPublicKey: "5c554d43301786aec29a09b13b485176e81d1532347a351aeafe018c199fd7ca",
           recipientPublicKey: "bfdd0ed3914d6e1a3e9a039b6bdfda2b77f727cb708354c3d80d0ea945a8749a",
@@ -48,6 +49,7 @@ class App extends React.Component {
         },
         {
           contractId: "23409304934L",
+          type: 123,
           timestamp: 323,
           senderPublicKey: "bfdd0ed3914d6e1a3e9a039b6bdfda2b77f727cb708354c3d80d0ea945a8749a",
           recipientPublicKey: "5c554d43301786aec29a09b13b485176e81d1532347a351aeafe018c199fd7ca",

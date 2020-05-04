@@ -16,7 +16,7 @@ const avatars = {
 
 const titles = {
   124: "Review Recurring Payment",
-  123: "Created Recurring Payment",
+  123: "MOOSTY-3872AB",
   125: "Request Recurring Payment",
   8: "Transfer",
 }
