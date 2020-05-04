@@ -47,14 +47,36 @@ variables to override:
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #FAFAFA;
   min-height: 100vh;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  font-size: calc(10px + 1vmin);
   color: white;
+}
+
+.ant-layout-header {
+    height: 20vh;
+    padding: 0 50px;
+    color: rgba(42, 41, 41, 0.65);
+    line-height: 2vh;
+    background: linear-gradient(0deg,#0c152e,#101c3d);
+}
+
+.ant-statistic-content {
+    color: #fafafa;
+    font-size: 12px;
+    line-height: 1rem;
+}
+
+.ant-statistic-title {
+    margin-bottom: 4px;
+    color: #4070f4;
+    font-size: 12px;
+    line-height: 0.5rem;
+    font-weight: bold;
 }
 
 .Wallet {
@@ -72,4 +94,10 @@ variables to override:
   to {
     transform: rotate(360deg);
   }
+}
+
+.ant-list-item-meta-description {
+    color: rgba(0, 0, 0, 0.45);
+    font-size: 10px;
+    line-height: 0.2rem;
 }
