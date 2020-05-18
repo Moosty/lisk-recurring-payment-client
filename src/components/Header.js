@@ -1,19 +1,21 @@
 import React, { useEffect, useState } from "react";
-import {CopyToClipboard} from 'react-copy-to-clipboard';
-import { Menu, Dropdown, } from 'antd';
-import { DownOutlined, } from '@ant-design/icons';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { Menu, Dropdown, Tooltip, } from 'antd';
+import { DownOutlined, CopyOutlined } from '@ant-design/icons';
 import { utils } from "@liskhq/lisk-transactions";
 import './Header.less';
 import { SprinklerModal } from "./SprinklerModal";
 import { useSprinkler } from "../hooks/sprinkler";
 import BigNum from "@liskhq/bignum/bignum";
 import { useWallet } from "../hooks/wallet";
-const { convertBeddowsToLSK } = utils;
+
+const {convertBeddowsToLSK} = utils;
 
 const types = [
   "base32_address",
   "old_address",
   "binary_address",
+  "public_key",
 ];
 
 export const Header = (props) => {
@@ -43,9 +45,12 @@ export const Header = (props) => {
     return (
       <Menu>
         <Menu.Item>
-          <CopyToClipboard text={props.address[addressType]} >
+          <CopyToClipboard text={addressType === "public_key" ? props.publicKey : props.address[addressType] || ""}>
             <span>COPY</span>
           </CopyToClipboard>
+        </Menu.Item>
+        <Menu.Item onClick={() => setAddressType(types[3])}>
+          Public Key
         </Menu.Item>
         <Menu.Item onClick={() => setAddressType(types[0])}>
           Base32 Address
@@ -69,12 +74,24 @@ export const Header = (props) => {
   );
 
   return <div className={`Header`}>
-    <span className="Name">{props.name}</span><br />
+    <span className="Name">{props.name}</span><br/>
     <h2 className="Balance">{convertBeddowsToLSK(balance.toString())} TKN
       {canDoSprinkler && <a onClick={() => setSprinkler(true)}>+</a>}</h2>
-    <span className="subtitle-Balance">Total Balance</span><br />
-    <h2 className="Address">{props.address[addressType] || ""} &nbsp; {dropDownHeader}</h2>
-    <span className="subtitle-Address">Address</span>
-    <SprinklerModal requestSprinkler={props.requestSprinkler} onClose={() => setSprinkler(false)} visible={sprinklerOpen} />
+    <span className="subtitle-Balance">Total Balance</span><br/>
+    <h2
+      className="Address">{addressType === "public_key" ? `${props.publicKey.slice(0, 34)}...` : props.address[addressType] || ""}
+      &nbsp; {dropDownHeader} &nbsp;
+      <Tooltip title="Copy">
+        <CopyToClipboard text={addressType === "public_key" ? props.publicKey : props.address[addressType] || ""}>
+          <CopyOutlined/>
+        </CopyToClipboard>
+      </Tooltip>
+    </h2>
+    <span className="subtitle-Address">{addressType === "public_key" ? `Public Key` : `Address`}</span>
+    <SprinklerModal
+      nonce={nonce}
+      requestSprinkler={props.requestSprinkler}
+      onClose={() => setSprinkler(false)}
+      visible={sprinklerOpen}/>
   </div>
 }

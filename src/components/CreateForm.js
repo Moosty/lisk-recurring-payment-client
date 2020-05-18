@@ -1,34 +1,61 @@
-import React from "react";
-import locale from 'antd/es/date-picker/locale/en_US';
-import { Modal, Form, Input, Radio, DatePicker, Select, InputNumber } from 'antd';
+import React, { useEffect, useRef, useState } from "react";
+import { Modal, Form, Input, Select, InputNumber } from 'antd';
+import './CreateForm.less';
 
-
-const {RangePicker} = DatePicker;
 const {Option} = Select;
-export const CreateForm = ({visible, onCreate, onCancel, account}) => {
+export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
   const [form] = Form.useForm();
-  const selectAfter = (
-    <Select defaultValue="MINUTES" className="select-after">
-      <Option value="MINUTES">Minute(s)</Option>
-      <Option value="HOURS">Hour(s)</Option>
-      <Option value="DAYS">Day(s)</Option>
-      <Option value="MONTHS">Month(s)</Option>
-    </Select>
-  );
+  const [recipient, setRecipientKey] = useState(publicKey);
+  const [sender, setSenderKey] = useState("");
+  const [senderDisabled, setSenderDisabled] = useState(false);
+  const [recipientDisabled, setRecipientDisabled] = useState(false);
+  const titleRef = useRef(null);
+  const senderInputRef = useRef(null);
+  const recipientInputRef = useRef(null);
+
+  const setSender = (event) => {
+    setSenderKey(event.target.value);
+    if (event.target.value === "") {
+      setRecipientDisabled(false);
+    } else if (event.target.value !== publicKey) {
+      form.setFieldsValue({recipient: publicKey})
+      setRecipientDisabled(true);
+    } else {
+      setRecipientDisabled(false);
+    }
+  }
+
+  const setRecipient = (event) => {
+    setRecipientKey(event.target.value);
+    if (event.target.value === "") {
+      setSenderDisabled(false);
+    } else if (event.target.value !== publicKey) {
+      form.setFieldsValue({sender: publicKey})
+      setSenderDisabled(true);
+    } else {
+      setSenderDisabled(false);
+    }
+  }
+
   return (
     <Modal
+      className="CreateModal"
       width={600}
       visible={visible}
       title="Create Recurring Payment Contract"
       okText="Create"
       cancelText="Cancel"
-      onCancel={onCancel}
+      onCancel={() => {
+        form.resetFields();
+        onCancel();
+      }}
       onOk={() => {
         form
           .validateFields()
           .then(values => {
             form.resetFields();
             onCreate(values);
+            onCancel();
           })
           .catch(info => {
             console.log('Validate Failed:', info);
@@ -44,48 +71,103 @@ export const CreateForm = ({visible, onCreate, onCancel, account}) => {
         }}
       >
         <Form.Item
-          name="sender"
-          label="Sender payments"
+          label="Contract name"
+          name="title"
           rules={[
             {
               required: true,
-              message: 'Please enter the Sender of this recurring payment',
+              message: 'Please enter a recurring payment contract name',
             },
           ]}
         >
-          <Input />
+          <Input ref={titleRef}/>
         </Form.Item>
         <Form.Item
-          name="recipient"
-          label="Recipient payments"
-          rules={[
-            {
-              required: true,
-              message: 'Please enter the Recipient of this recurring payment',
-            },
-          ]}
+          label="Sender payments public key"
         >
-          <Input />
+          <Form.Item
+            noStyle
+            name="sender"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the senders public key of this recurring payment',
+              },
+            ]}
+          >
+            <Input
+              value={sender}
+              ref={senderInputRef}
+              onChange={setSender}
+              disabled={senderDisabled}/>
+          </Form.Item>
+          <a onClick={() => {
+            form.setFieldsValue({sender: publicKey});
+            recipientInputRef.current.focus();
+          }}>Me</a>
         </Form.Item>
-
+        <Form.Item
+          label="Recipient payments public key"
+        >
+          <Form.Item
+            noStyle
+            name="recipient"
+            rules={[
+              {
+                required: true,
+                message: 'Please enter the recipients public key of this recurring payment',
+              },
+            ]}
+          >
+            <Input
+              value={recipient}
+              ref={recipientInputRef}
+              onChange={setRecipient}
+              disabled={recipientDisabled}/>
+          </Form.Item>
+          <a onClick={() => {
+            form.setFieldsValue({recipient: publicKey});
+            recipientInputRef.current.focus();
+          }}>Me</a>
+        </Form.Item>
         <Form.Item label="A payment unit is every" style={{marginBottom: 0}}>
           <Form.Item name="unitAmount" style={{display: 'inline-block'}} rules={[
             {
               required: true,
             },
           ]}>
-            <InputNumber precision={0} value={2} />
+            <InputNumber min={1} precision={0} value={2}/>
           </Form.Item>
-          <Form.Item name="unitType" style={{display: 'inline-block', width: 'calc(30% - 8px)', margin: '0 8px'}}>
-            {selectAfter}
+          <Form.Item name="unitType" style={{display: 'inline-block', width: 'calc(30% - 8px)', margin: '0 8px'}}
+                     rules={[
+                       {
+                         required: true,
+                       },
+                     ]}>
+            <Select placeholder="Select unit type" className="select-after">
+              <Option value="MINUTES">Minute(s)</Option>
+              <Option value="HOURS">Hour(s)</Option>
+              <Option value="DAYS">Day(s)</Option>
+              <Option value="MONTHS">Month(s)</Option>
+            </Select>
           </Form.Item>
         </Form.Item>
 
-        <Form.Item
-          name="duration"
-          label="Contract duration in units">
-          <InputNumber precision={0} /> &nbsp; Unit(s)
+        <Form.Item label="Contract duration in units">
+          <Form.Item
+            name="duration"
+            noStyle
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <InputNumber min={1} precision={0} value={12}/>
+          </Form.Item>
+          <span> &nbsp; Unit(s)</span>
         </Form.Item>
+
 
         <Form.Item label="Payment amount per unit" style={{marginBottom: 0}}>
           <Form.Item name="amount" style={{display: 'inline-block'}} rules={[
@@ -93,9 +175,9 @@ export const CreateForm = ({visible, onCreate, onCancel, account}) => {
               required: true,
             },
           ]}>
-            <InputNumber precision={8} defaultValue={2} />
-            &nbsp; TKN every unit
+            <InputNumber min={0.0001} precision={4} value={2}/>
           </Form.Item>
+          <span> &nbsp; TKN every unit</span>
         </Form.Item>
 
         <Form.Item label="Termination fee" style={{marginBottom: 0}}>
@@ -104,8 +186,9 @@ export const CreateForm = ({visible, onCreate, onCancel, account}) => {
               required: true,
             },
           ]}>
-            <InputNumber precision={0} defaultValue={1} /> &nbsp; Unit(s)
+            <InputNumber min={0} precision={0} value={1}/>
           </Form.Item>
+          <span> &nbsp; Unit(s)</span>
         </Form.Item>
 
         <Form.Item label="Minimal units to activate" style={{marginBottom: 0}}>
@@ -114,8 +197,9 @@ export const CreateForm = ({visible, onCreate, onCancel, account}) => {
               required: true,
             },
           ]}>
-            <InputNumber precision={0} defaultValue={1} /> &nbsp; Unit(s)
+            <InputNumber min={1} precision={0} defaultValue={1}/>
           </Form.Item>
+          <span> &nbsp; Unit(s)</span>
         </Form.Item>
 
         <Form.Item name="data" label="Data">

@@ -2,10 +2,10 @@ import React from 'react';
 import './SprinklerModal.less';
 import { Modal } from "antd";
 
-export const SprinklerModal = ({visible, onClose, requestSprinkler}) => {
+export const SprinklerModal = ({visible, onClose, requestSprinkler, nonce}) => {
 
   const sprinkler = () => {
-    requestSprinkler()
+    requestSprinkler(nonce)
     onClose();
   }
 

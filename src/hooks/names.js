@@ -1,6 +1,6 @@
-import { memo, useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-export const useName = (id) => {
+export const useName = () => {
   const [name, setName] = useState("");
 
   useEffect(() => {

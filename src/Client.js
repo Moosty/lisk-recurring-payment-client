@@ -32,6 +32,10 @@ export const Client = memo(({id, close}) => {
     setCreate(!createIsOpen);
   }
 
+  const checkContract = (data) => {
+    console.log(data)
+  }
+
   if (loggedIn) {
     const className = `Wallet Wallet-${id}`;
     return (
@@ -42,7 +46,7 @@ export const Client = memo(({id, close}) => {
           name={name}
           address={address}
           setLogout={() => setLoggedIn(false)}
-          requestSprinkler={() => doSprinkler(passphrase, name)}
+          requestSprinkler={(nonce) => doSprinkler(passphrase, name, nonce)}
         />
         {currentView === "overview" &&
         <Transactions
@@ -57,8 +61,9 @@ export const Client = memo(({id, close}) => {
           switchCreate={openCreate}/>
         <CreateForm
           visible={createIsOpen}
-          onCreate={(e) => console.log(e)}
+          onCreate={(e) => checkContract(e)}
           onCancel={openCreate}
+          publicKey={publicKey}
         />
       </div>
     )

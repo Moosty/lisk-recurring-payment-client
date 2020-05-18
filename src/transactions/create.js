@@ -2,10 +2,9 @@ import { client } from '@moosty/lisk-sprinkler';
 import { config } from "../config/config";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 
-export const doSprinkler = (passphrase, username, nonce) => {
+export const doCreate = (passphrase, nonce) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
-  const tx = client.sprinkler({
-    username: username.toLowerCase(),
+  const tx = client.create({
     publicKey,
     networkIdentifier: config.networkIdentifier,
     nonce: nonce.toString(),

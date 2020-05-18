@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   SyncOutlined,
 } from '@ant-design/icons';
@@ -7,9 +7,12 @@ import { Input, Form, Button, Row, Col } from 'antd';
 import { useCheckName } from "../hooks/useCheckName";
 
 const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => {
+  const [currentState, setCurrent] = useState(false);
   const [exist, canLogin] = useCheckName(username, passphrase, setUsername);
+  const nameInput = useRef(null);
 
   const refreshPassphrase = () => {
+    setUsername("");
     setPassphrase(Mnemonic.generateMnemonic());
   }
 
@@ -23,6 +26,12 @@ const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => 
       sm: {span: 16},
     },
   };
+
+  useEffect(() => {
+    if (nameInput.current) {
+      nameInput.current.focus();
+    }
+  }, [exist, canLogin]);
 
   return (
     <div className={`Login`}>
@@ -58,6 +67,7 @@ const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => 
           hasFeedback={true}
         >
           <Input
+            ref={nameInput}
             className="Username"
             value={username}
             disabled={exist && canLogin}
