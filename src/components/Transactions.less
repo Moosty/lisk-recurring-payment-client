@@ -1,0 +1,26 @@
+@import "../variables";
+
+.Transactions-container {
+  position: relative;
+}
+
+.Transactions {
+  position: absolute;
+  top: -30px;
+  padding-top: 0px;
+  height: @client-height - 210px;
+  width: 100%;
+  background: rgba(0,0,0,0);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.TransactionItem {
+  margin: .3em;
+  height: 33px;
+  background: white;
+  border-radius: 5px;
+  -webkit-box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+  -moz-box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+  box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+}
