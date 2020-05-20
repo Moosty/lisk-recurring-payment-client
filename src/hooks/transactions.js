@@ -25,18 +25,19 @@ export const useTransactions = () => {
   const loadTransactions = (props) => {
     console.log("load transactions...")
     if ((props && props.loggedIn && props.publicKey) || (accountRef.current.loggedIn && accountRef.current.publicKey)) {
-      fetch(`${config.node}transactions?senderPublicKey=${accountRef.current.publicKey || props.publicKey}`)
+      const offset = transactionsRef.current.length;
+      fetch(`${config.node}transactions?limit=100&offset=${offset}&senderPublicKey=${accountRef.current.publicKey || props.publicKey}`)
         .then(result => result.json())
         .then(data => {
           if (data && data.data && data.data.length > 0) {
-            data.data.map(tx => {
-              if (transactionsRef.current.length > 0 && _.findIndex(transactionsRef.current, {id: tx.id}) === -1) {
-                setTransactions([...data.data, tx]);
-              } else {
-                setTransactions(data.data);
+            const txs = data.data.map(tx => {
+              if (_.findIndex(transactionsRef.current, {id: tx.id}) === -1) {
+                return tx;
               }
-            })
+            });
+            setTransactions(_.uniqWith([...txs, ...transactionsRef.current], _.isEqual));
           }
+
           setTimer(setTimeout(() => {
             loadTransactions();
           }, config.refreshInterval));

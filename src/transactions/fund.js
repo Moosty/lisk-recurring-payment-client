@@ -1,32 +1,17 @@
 /* global BigInt */
-import { CreateContractTransaction } from '@moosty/lisk-recurring-payment';
+import { FundContractTransaction } from '@moosty/lisk-recurring-payment';
 import { config } from "../config/config";
-import { utils } from "@liskhq/lisk-transactions";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { getNonce } from "./helpers/nonce";
 
-const { convertLSKToBeddows } = utils;
-
-export const doCreate = async (passphrase, data, api) => {
+export const doFund = async (passphrase, data, api) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
-  const tx = new CreateContractTransaction({
+  const tx = new FundContractTransaction({
     nonce: nonce.toString(),
     senderPublicKey: publicKey,
     asset: {
-      title: data.title,
-      unit: {
-        type: data.unitType,
-        typeAmount: data.unitAmount,
-        amount: convertLSKToBeddows(data.amount.toString()),
-        prepaid: data.prepaid,
-        total: data.duration,
-        terminateFee: data.terminationFee,
-      },
-      recipientPublicKey: data.recipient,
-      senderPublicKey: data.sender,
-      timestamp: parseInt(new Date().getTime() / 1000),
-      data: data.data,
+      ...data
     }
   });
 
@@ -43,11 +28,10 @@ export const doCreate = async (passphrase, data, api) => {
   fetch(`${config.node}transactions`, options)
     .then(result => result.json())
     .then(data => {
-
       if (data.meta && data.meta.status) {
         api.success({
-          message: "Send transaction",
-          description: "Create transaction accepted",
+          message: "Send fund transaction",
+          description: "Fund transaction accepted",
           placement: "topRight",
           duration: 10
         })
@@ -62,5 +46,6 @@ export const doCreate = async (passphrase, data, api) => {
           })
         })
       }
+
     })
 }

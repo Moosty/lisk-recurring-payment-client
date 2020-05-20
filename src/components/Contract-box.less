@@ -1,0 +1,123 @@
+
+.Contract-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  border-radius: 10px;
+
+  padding: 16px;
+  margin: 16px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, .125);
+  height: 164px;
+  opacity: 0;
+  transform: translate(0, 100%);
+  visibility: hidden;
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  will-change: opacity, visibility;
+  background: white;
+}
+
+.History {
+  height: auto;
+}
+
+.Actions {
+  height: 100px;
+}
+
+.StatusTitle {
+  font-size: 40px;
+  font-weight: bolder;
+}
+
+.Status-unknown {
+  @color1: rgb(241, 42, 255);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-review {
+  @color1: rgb(245, 149, 68);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-review-other {
+  @color1: rgb(243, 202, 100);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-accepted {
+  @color1: rgb(160, 243, 100);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-active {
+  @color1: rgb(65, 153, 33);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-ended {
+  @color1: rgb(8, 128, 86);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.Status-terminated {
+  @color1: rgb(158, 5, 33);
+  @color2: rgba(255, 255, 255, 0.9);
+  background: @color1;
+  background: -moz-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(170deg, @color1 0%, @color2 100%);
+  background: linear-gradient(170deg, @color1 0%, @color2 100%);
+}
+
+.is-visible {
+  opacity: 1;
+  transform: none;
+  visibility: visible;
+  display: flex;
+}

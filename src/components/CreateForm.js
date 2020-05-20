@@ -37,6 +37,20 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
     }
   }
 
+  useEffect(() => {
+    form.setFieldsValue({
+      recipient: publicKey,
+      sender: "267605ae23a157b0a82453fc48dd5c6adc25045c3a4a2a28dc6550a9518a2393",
+      title: "test",
+      unitAmount: 1,
+      amount: "1.0000",
+      unitType: "MONTHS",
+      duration: 12,
+      prepaid: 6,
+      terminationFee: 2,
+    })
+  }, [])
+
   return (
     <Modal
       className="CreateModal"
@@ -197,7 +211,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
               required: true,
             },
           ]}>
-            <InputNumber min={1} precision={0} defaultValue={1}/>
+            <InputNumber min={1} precision={0} initialValue={1}/>
           </Form.Item>
           <span> &nbsp; Unit(s)</span>
         </Form.Item>

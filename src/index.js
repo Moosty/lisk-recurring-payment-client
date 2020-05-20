@@ -1,18 +1,14 @@
+/* global BigInt */
 import React from 'react';
 import ReactDOM from 'react-dom';
-// import Buff from 'buffer/';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import JavascriptTimeAgo from 'javascript-time-ago';
+import en from 'javascript-time-ago/locale/en';
+import "antd/dist/antd.css";
 
-// // import Buffer from './libs/buffer';
-// var bif = new Buff.Buffer.alloc(0);
-// console.log(bif.readBigInt64BE(), Buff)
-//
-// if (typeof global?.Buffer === 'undefined') {
-
-  // global.buffer = Buff.Buffer;
-// }
+JavascriptTimeAgo.locale(en)
 
 ReactDOM.render(
   <App/>, document.getElementById('root')

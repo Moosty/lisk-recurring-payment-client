@@ -1,9 +1,10 @@
 import React, { memo, useEffect } from "react";
-import './Transactions.less';
+import _ from 'lodash';
 import { TransactionItem } from "./Transaction-item";
 import { useTransactions } from "../hooks/transactions";
+import './Transactions.less';
 
-export const Transactions = memo(({publicKey, loggedIn}) => {
+export const Transactions = memo(({publicKey, loggedIn, setCurrentView}) => {
 
   const [transactions, activateTransactions] = useTransactions();
 
@@ -12,10 +13,10 @@ export const Transactions = memo(({publicKey, loggedIn}) => {
       activateTransactions({loggedIn, publicKey});
     }
   }, [loggedIn, publicKey]);
-
-  const txs = transactions.map(tx => {
+  const sortedTransactions = _.orderBy(transactions, ['height'], ['desc']);
+  const txs = sortedTransactions.map(tx => {
     return (
-      <TransactionItem key={tx.id} tx={tx}/>
+      <TransactionItem key={tx.id} tx={tx} setCurrentView={setCurrentView}/>
     )
   });
 

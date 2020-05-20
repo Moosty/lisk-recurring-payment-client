@@ -1,7 +1,9 @@
 import React, { memo, useState, useEffect } from "react";
+import { Button, notification, Divider, Space } from 'antd';
 import { useName } from "./hooks/names";
 import Login from "./components/Login";
-import { Header } from "./components/Header";
+import { AccountHeader } from "./components/AccountHeader";
+import { ContractHeader } from "./components/contract/ContractHeader";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { convert } from "./utils";
 import { Transactions } from "./components/Transactions";
@@ -9,6 +11,15 @@ import { Contracts } from "./components/Contracts";
 import { Footer } from "./components/Footer";
 import { CreateForm } from "./components/CreateForm";
 import { doSprinkler } from "./transactions/sprinkler";
+import { doCreate } from "./transactions/create";
+import { useView } from "./hooks/view";
+import { Contract } from "./components/Contract";
+import { doReview } from "./transactions/review";
+import { doTerminate } from "./transactions/terminate";
+import { doRequest } from "./transactions/request";
+import { doFund } from "./transactions/fund";
+
+const Context = React.createContext({name: 'Default'});
 
 export const Client = memo(({id, close}) => {
   const [name, setName] = useName(null);
@@ -16,8 +27,9 @@ export const Client = memo(({id, close}) => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [publicKey, setPublicKey] = useState("");
   const [address, setAddress] = useState({base32_address: "", old_address: "", binary_address: ""});
-  const [currentView, setView] = useState("overview");
+  const [currentView, setCurrentView] = useView();
   const [createIsOpen, setCreate] = useState(false);
+  const [api, contextHolder] = notification.useNotification();
 
   useEffect(() => {
     if (passphrase) {
@@ -33,39 +45,79 @@ export const Client = memo(({id, close}) => {
   }
 
   const checkContract = (data) => {
-    console.log(data)
+    doCreate(passphrase, data, api)
+  }
+
+  const checkReview = (data) => {
+    doReview(passphrase, data, api)
   }
 
   if (loggedIn) {
     const className = `Wallet Wallet-${id}`;
     return (
-      <div className={className}>
-        <Header
-          loggedIn={loggedIn}
-          publicKey={publicKey}
-          name={name}
-          address={address}
-          setLogout={() => setLoggedIn(false)}
-          requestSprinkler={(nonce) => doSprinkler(passphrase, name, nonce)}
-        />
-        {currentView === "overview" &&
-        <Transactions
-          loggedIn={loggedIn}
-          publicKey={publicKey}
-          address={address}/>}
-        {currentView === "contracts" &&
-        <Contracts address={address}/>}
-        <Footer
-          currentView={currentView}
-          setView={setView}
-          switchCreate={openCreate}/>
-        <CreateForm
-          visible={createIsOpen}
-          onCreate={(e) => checkContract(e)}
-          onCancel={openCreate}
-          publicKey={publicKey}
-        />
-      </div>
+      <Context.Provider value={{name: 'Recurring Payment'}}>
+        {contextHolder}
+        <div className={className}>
+          {currentView.view !== "contract" && <AccountHeader
+            currentView={currentView}
+            loggedIn={loggedIn}
+            publicKey={publicKey}
+            name={name}
+            address={address}
+            setLogout={() => setLoggedIn(false)}
+            requestSprinkler={(nonce) => doSprinkler(passphrase, name, nonce)}
+          />}
+          {currentView.view === "contract" && <ContractHeader
+            currentView={currentView}
+            loggedIn={loggedIn}
+            publicKey={publicKey}
+            name={name}
+            address={address}
+            setLogout={() => setLoggedIn(false)}
+            requestSprinkler={(nonce) => doSprinkler(passphrase, name, nonce)}
+          />}
+          {currentView.view === "overview" &&
+          <Transactions
+            loggedIn={loggedIn}
+            publicKey={publicKey}
+            address={address}
+            setCurrentView={setCurrentView}
+          />}
+          {currentView.view === "contracts" &&
+          <Contracts
+            loggedIn={loggedIn}
+            publicKey={publicKey}
+            address={address}
+            setCurrentView={setCurrentView}
+          />}
+          {currentView.view === "contract" &&
+          <Contract
+            api={api}
+            loggedIn={loggedIn}
+            address={address}
+            setCurrentView={setCurrentView}
+            publicKey={publicKey}
+            contractId={currentView.id}
+            doAccept={(id) => doReview(passphrase, {contractPublicKey: id, accept: true}, api)}
+            // doReview={(data) => doReview(passphrase, data)}
+            doFund={(data) => doFund(passphrase, data, api)}
+            doRequest={(data) => doRequest(passphrase, data, api)}
+            doTerminate={(data) => doTerminate(passphrase, data, api)}
+            doReview={(data) => checkReview(data)}
+          />}
+          {currentView.view === "about" && <h1>About</h1>}
+          <Footer
+            currentView={currentView}
+            setView={setCurrentView}
+            switchCreate={openCreate}/>
+          <CreateForm
+            visible={createIsOpen}
+            onCreate={(e) => checkContract(e)}
+            onCancel={openCreate}
+            publicKey={publicKey}
+          />
+        </div>
+      </Context.Provider>
     )
   } else {
     return (

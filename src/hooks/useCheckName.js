@@ -12,7 +12,6 @@ export const useCheckName = (name, passphrase, setName) => {
       fetch(`${config.node}accounts?publicKey=${publicKey}`)
         .then(result => result.json())
         .then(data => {
-          console.log(data)
           if (data.data && data.data.length > 0) {
             if (data.data[0].username !== "") {
               setName(data.data[0].username);

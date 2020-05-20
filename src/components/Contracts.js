@@ -1,17 +1,34 @@
-import React from "react";
-import './Transactions.less';
-import { TransactionItem } from "./Transaction-item";
+import React, { memo, useEffect } from "react";
+import _ from 'lodash';
+import { ContractItem } from "./Contract-item";
+import { useContracts } from "../hooks/contracts";
+import './Contracts.less';
 
-export const Contracts = (props) => {
+export const Contracts = memo(({publicKey, loggedIn, setCurrentView}) => {
 
-  const items = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(number => (
-    <TransactionItem key={ number }>Contract { number }</TransactionItem>
-  ));
+  const [contracts, activateContracts] = useContracts();
 
-  return <div className="Transactions-container">
-    <div className="Transactions">
-      {items}
+  useEffect(() => {
+    if (loggedIn && publicKey) {
+      activateContracts({loggedIn, publicKey});
+    }
+  }, [loggedIn, publicKey]);
+
+  const cts = contracts.map(contract => {
+    return (
+      <ContractItem
+        key={contract.address}
+        contract={contract}
+        setCurrentView={setCurrentView}
+        publicKey={publicKey}/>
+    )
+  });
+  const sortedContracts = _.orderBy(cts, ['state'], ['desc']);
+  console.log(contracts, cts, sortedContracts)
+  return <div className="Contracts-container">
+    <div className="Contracts">
+      {cts.length > 0 && sortedContracts}
+      {cts.length === 0 && <ContractItem noCts={true}/>}
     </div>
-    {/*<div className="Transaction-fade-top"/>*/}
   </div>
-}
+})

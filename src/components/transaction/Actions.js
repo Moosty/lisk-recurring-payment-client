@@ -1,23 +1,40 @@
 import React from 'react';
 import {
-  DollarOutlined,
   QuestionCircleOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
-// https://ant.design/components/icon/
+import { CreateContractTransaction } from "@moosty/lisk-recurring-payment/dist-node";
 
 export const TransactionActions = (props) => {
 
-  switch(props.tx.type) {
+  switch (props.tx.type) {
     case 8:
       // transfer
       return (<div>transfer</div>);
     case 13001:
       // faucet
-      return (<div />);
+      return (<div/>);
+    case 13010:
+      // Create
+      const tx = new CreateContractTransaction(props.tx);
+      const contractPublicKey = tx.getContractPublicKey();
+      return (
+        <div className="TransactionActionsContainer">
+          <span className="TransactionActionsSubTitle">
+            <a onClick={() => props.setCurrentView("contract", {
+              id: contractPublicKey
+            })}>View Contract</a></span>
+        </div>
+      );
     default:
       // every other transaction
-      console.log("Missing icon style type: " + props.tx.type)
-      return (<Avatar style={{backgroundColor: '#ff0000'}} icon={<QuestionCircleOutlined />}/>)
+      return (
+        <div className="TransactionActionsContainer">
+          <span className="TransactionActionsSubTitle">
+            <a onClick={() => props.setCurrentView("contract", {
+              id: props.tx.asset.contractPublicKey
+            })}>View Contract</a></span>
+        </div>
+      );
   }
 }

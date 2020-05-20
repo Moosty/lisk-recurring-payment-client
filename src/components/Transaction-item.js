@@ -1,13 +1,17 @@
-import React from 'react';
-import './Transaction-item.less';
+import React, { useEffect } from 'react';
+import TimeAgo from 'react-time-ago';
+import { Tooltip } from 'antd';
 import { TransactionIcon } from "./transaction/icon";
 import { TransactionDetails } from "./transaction/Details";
 import { TransactionActions } from "./transaction/Actions";
+import './Transaction-item.less';
+import { useTimestamp } from "../hooks/timestamp";
+import { config } from "../config/config";
 
 export const TransactionItem = (props) => {
 
   const domRef = React.useRef();
-
+  const [timestamp, setBlockId] = useTimestamp()
   const [isVisible, setVisible] = React.useState(false);
 
   React.useEffect(() => {
@@ -24,14 +28,23 @@ export const TransactionItem = (props) => {
     return () => observer.unobserve(domRef.current);
   }, []);
 
+  useEffect(() => {
+    if (props.tx) {
+      setBlockId(props.tx.blockId)
+    }
+  }, [props.tx])
+
   const className = `Transaction-item ${isVisible ? ' is-visible' : ''}`;
 
   if (!props.noTxs) {
-    return (<div ref={domRef} className={className}>
-      <TransactionIcon type={props.tx.type} />
-      <TransactionDetails tx={props.tx} />
-      <TransactionActions tx={props.tx} />
-    </div>);
+    return (
+      <Tooltip title={<TimeAgo date={new Date(1000 * (Math.floor(new Date(config.epoch) / 1000) + timestamp))}/>}>
+        <div ref={domRef} className={className}>
+          <TransactionIcon tx={props.tx}/>
+          <TransactionDetails tx={props.tx}/>
+          <TransactionActions tx={props.tx} setCurrentView={props.setCurrentView}/>
+        </div>
+      </Tooltip>);
   } else {
     return (<div ref={domRef} className={className}>No transactions</div>);
   }

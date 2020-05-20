@@ -1,37 +1,25 @@
 /* global BigInt */
-import { CreateContractTransaction } from '@moosty/lisk-recurring-payment';
+import { RequestPaymentTransaction } from '@moosty/lisk-recurring-payment';
 import { config } from "../config/config";
-import { utils } from "@liskhq/lisk-transactions";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { getNonce } from "./helpers/nonce";
+import { getUnit } from "./helpers/unit";
 
-const { convertLSKToBeddows } = utils;
-
-export const doCreate = async (passphrase, data, api) => {
+export const doRequest = async (passphrase, data, api) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
-  const tx = new CreateContractTransaction({
+  const unit = await getUnit(data.contractPublicKey);
+  const tx = new RequestPaymentTransaction({
     nonce: nonce.toString(),
     senderPublicKey: publicKey,
     asset: {
-      title: data.title,
-      unit: {
-        type: data.unitType,
-        typeAmount: data.unitAmount,
-        amount: convertLSKToBeddows(data.amount.toString()),
-        prepaid: data.prepaid,
-        total: data.duration,
-        terminateFee: data.terminationFee,
-      },
-      recipientPublicKey: data.recipient,
-      senderPublicKey: data.sender,
-      timestamp: parseInt(new Date().getTime() / 1000),
-      data: data.data,
+      ...data,
+      unit,
     }
   });
-
   tx.fee = (tx.minFee + BigInt(65000)).toString();
   tx.sign(config.networkIdentifier, passphrase)
+
   const options = {
     headers: {
       "content-type": "application/json; charset=UTF-8",
@@ -43,17 +31,17 @@ export const doCreate = async (passphrase, data, api) => {
   fetch(`${config.node}transactions`, options)
     .then(result => result.json())
     .then(data => {
-
       if (data.meta && data.meta.status) {
         api.success({
-          message: "Send transaction",
-          description: "Create transaction accepted",
+          message: "Send payment request transaction",
+          description: "Payment request transaction accepted",
           placement: "topRight",
           duration: 10
         })
       }
       if (data.errors) {
         data.errors.map(error => {
+          console.log(error)
           api.error({
             message: data.message,
             description: error.message,

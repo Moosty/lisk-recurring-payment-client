@@ -1,32 +1,18 @@
 /* global BigInt */
-import { CreateContractTransaction } from '@moosty/lisk-recurring-payment';
+import { TerminateContractTransaction } from '@moosty/lisk-recurring-payment';
 import { config } from "../config/config";
-import { utils } from "@liskhq/lisk-transactions";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { getNonce } from "./helpers/nonce";
 
-const { convertLSKToBeddows } = utils;
-
-export const doCreate = async (passphrase, data, api) => {
+export const doTerminate = async (passphrase, data, api) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
-  const tx = new CreateContractTransaction({
+  console.log(data)
+  const tx = new TerminateContractTransaction({
     nonce: nonce.toString(),
     senderPublicKey: publicKey,
     asset: {
-      title: data.title,
-      unit: {
-        type: data.unitType,
-        typeAmount: data.unitAmount,
-        amount: convertLSKToBeddows(data.amount.toString()),
-        prepaid: data.prepaid,
-        total: data.duration,
-        terminateFee: data.terminationFee,
-      },
-      recipientPublicKey: data.recipient,
-      senderPublicKey: data.sender,
-      timestamp: parseInt(new Date().getTime() / 1000),
-      data: data.data,
+      ...data
     }
   });
 
@@ -43,11 +29,10 @@ export const doCreate = async (passphrase, data, api) => {
   fetch(`${config.node}transactions`, options)
     .then(result => result.json())
     .then(data => {
-
       if (data.meta && data.meta.status) {
         api.success({
-          message: "Send transaction",
-          description: "Create transaction accepted",
+          message: "Send terminate transaction",
+          description: "Terminate transaction accepted",
           placement: "topRight",
           duration: 10
         })

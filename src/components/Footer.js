@@ -15,7 +15,7 @@ export const Footer = ({switchCreate, setView, currentView}) => {
 
   return (
     <div className="Footer">
-      <Menu className="Footer-menu" onClick={handleClick} selectedKeys={[currentView]} mode="horizontal">
+      <Menu className="Footer-menu" onClick={handleClick} selectedKeys={[currentView.view]} mode="horizontal">
         <Menu.Item key="overview" icon={<DashboardOutlined/>}>
           Overview
         </Menu.Item>
