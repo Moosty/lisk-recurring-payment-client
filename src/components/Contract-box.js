@@ -7,6 +7,7 @@ import { ContractItemActions } from "./contract/ItemActions";
 import './Contract-box.less';
 import { ReviewModal } from "./contract/ReviewModal";
 import { HistoryBox } from "./contract/HistoryBox";
+import { Result, Button } from 'antd';
 
 export const ContractBox = (props) => {
 
@@ -102,9 +103,15 @@ export const ContractBox = (props) => {
   let className = `Contract-box ${stateClass} ${isVisible ? ' is-visible' : ''}`;
   if (props.box !== "not-found") {
     if (props.box === "status") {
-      return (<div ref={domRef} className={className}>
-        <h1 className="StatusTitle">{status}</h1>
-      </div>);
+      return (<div ref={domRef} className={className}><Result 
+        status="warning"
+        title={status}
+        subTitle="Wat een fantastische situatie, cash money hoes!"
+         
+      />
+
+      </div>
+  );
     } else if (props.box === "history") {
       className += " History"
       return (<div ref={domRef} className={className}>
@@ -117,12 +124,12 @@ export const ContractBox = (props) => {
     } else if (props.box === "review") {
       return (
         <div ref={domRef}>
-          <button
+          <Button
             onClick={() => setReviewState(true)}
             type="button"
-            className="btn btn-success btn-lg btn3d">
+            className="btn-success btn-lg">
             Review
-          </button>
+          </Button>
           <ReviewModal
             visible={reviewIsOpen}
             onReview={(e, reset) => checkContractReview(e, reset)}
@@ -146,37 +153,37 @@ export const ContractBox = (props) => {
       // </div>);
       return (
         <div ref={domRef}>
-          <button onClick={() => props.doFund({
+          <Button onClick={() => props.doFund({
             contractPublicKey: props.contract.publicKey,
             units: props.contract.asset.unit.total
           })} type="button"
-                  className="btn btn-success btn-lg btn3d">Fund contract
-          </button>
+                  className="btn-success btn-lg">Fund contract
+          </Button>
           {props.contract.asset.state === "ACTIVE" &&
-          <button onClick={() => props.doTerminate({
+          <Button onClick={() => props.doTerminate({
             contractPublicKey: props.contract.publicKey,
             peerPublicKey: props.contract.asset.senderPublicKey === props.publicKey ?
               props.contract.asset.recipientPublicKey :
               props.contract.asset.senderPublicKey
           })} type="button"
-                  className="btn btn-danger btn-lg btn3d">Terminate contract
-          </button>}
+                  className="btn btn-danger">Terminate contract
+          </Button>}
         </div>
       )
     } else if (props.box === "request") {
       return (<div ref={domRef}>
-        <button onClick={() => props.doRequest({contractPublicKey: props.contract.publicKey})} type="button"
-                className="btn btn-success btn-lg btn3d">Request payment
-        </button>
+        <Button onClick={() => props.doRequest({contractPublicKey: props.contract.publicKey})} type="button"
+                className="btn-success btn-lg">Request payment
+        </Button>
         {props.contract.asset.state === "ACTIVE" &&
-        <button onClick={() => props.doTerminate({
+        <Button onClick={() => props.doTerminate({
           contractPublicKey: props.contract.publicKey,
           peerPublicKey: props.contract.asset.senderPublicKey === props.publicKey ?
             props.contract.asset.recipientPublicKey :
             props.contract.asset.senderPublicKey
         })} type="button"
                 className="btn btn-danger btn-lg btn3d">Terminate contract
-        </button>}
+        </Button>}
       </div>);
     } else if (props.box === "state-funding") {
       return (<div ref={domRef} className={className}>

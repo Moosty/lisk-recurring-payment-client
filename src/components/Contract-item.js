@@ -52,7 +52,7 @@ export const ContractItem = (props) => {
         stateClass += "unknown";
     }
   }
-  const className = `Contract-item ${stateClass} ${isVisible ? ' is-visible' : ''}`;
+  const className = `Contract-item ${isVisible ? ' is-visible' : ''}`;
 
   if (!props.noCts) {
     return (<div ref={domRef} className={className}>

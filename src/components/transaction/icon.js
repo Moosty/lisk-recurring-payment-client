@@ -1,4 +1,5 @@
 import React from 'react';
+import './icon.less';
 import {
   DollarOutlined,
   QuestionCircleOutlined,
@@ -10,6 +11,7 @@ import {
   FileSyncOutlined,
 } from "@ant-design/icons";
 import { Avatar } from "antd";
+
 // https://ant.design/components/icon/
 
 export const TransactionIcon = (props) => {
@@ -20,29 +22,29 @@ export const TransactionIcon = (props) => {
       return (<div>transfer</div>);
     case 13001:
       // faucet
-      return (<Avatar style={{backgroundColor: '#008800'}} icon={<DollarOutlined/>}/>);
+      return (<Avatar className={"FaucetIcon"} icon={<DollarOutlined/>}/>);
     case 13010:
       // Create
-      return (<Avatar style={{backgroundColor: '#008800'}} icon={<FileAddOutlined/>}/>);
+      return (<Avatar className={"CreateIcon"} icon={<FileAddOutlined/>}/>);
     case 13020:
       // Review
       if (!props.tx.asset.accept) {
-        return (<Avatar style={{backgroundColor: '#de742d'}} icon={<FileSearchOutlined/>}/>);
+        return (<Avatar  className={"AcceptIcon"} icon={<FileSearchOutlined/>}/>);
       } else {
-        return (<Avatar style={{backgroundColor: '#008800'}} icon={<FileProtectOutlined />}/>);
+        return (<Avatar className={"AcceptIcon"}  icon={<FileProtectOutlined />}/>);
       }
     case 13030:
       // Fund
-      return (<Avatar style={{backgroundColor: '#0a2384'}} icon={<FileDoneOutlined />}/>);
+      return (<Avatar className={"FundIcon"}  icon={<FileDoneOutlined />}/>);
     case 13040:
       // Request
-      return (<Avatar style={{backgroundColor: '#008800'}} icon={<FileSyncOutlined />}/>);
+      return (<Avatar className={"ActiveIcon"}  icon={<FileSyncOutlined />}/>);
     case 13050:
       // Terminate
-      return (<Avatar style={{backgroundColor: '#88000b'}} icon={<FileExclamationOutlined />}/>);
+      return (<Avatar className={"TerminateIcon"}  icon={<FileExclamationOutlined />}/>);
     default:
       // every other transaction
       console.log("Missing icon style type: " + props.type)
-      return (<Avatar className="TransactionIcon" style={{backgroundColor: '#ff0000'}} icon={<QuestionCircleOutlined/>}/>)
+      return (<Avatar className="TransactionIcon" style={{backgroundColor: 'blue'}} icon={<QuestionCircleOutlined/>}/>)
   }
 }

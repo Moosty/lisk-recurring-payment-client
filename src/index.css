@@ -11,3 +11,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
+
+.Transactions::-webkit-scrollbar {
+       width: 0.8rem;
+    box-shadow: none!important;
+    background-color: #5f9ea000;
+}
+ 
+.Transactions::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+}
+ 
+.Transactions::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf8f;
+    border-radius: 5px;
+}

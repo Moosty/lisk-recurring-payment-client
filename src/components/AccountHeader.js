@@ -77,7 +77,7 @@ export const AccountHeader = (props) => {
     <span className="Name">{props.name}</span><br/>
     <h2 className="Balance">{parseFloat(convertBeddowsToLSK(balance.toString())).toFixed(4)} TKN
       {canDoSprinkler && <a onClick={() => setSprinkler(true)}>+</a>}</h2>
-    <span className="subtitle-Balance">Total Balance</span><br/>
+    
     <h2
       className="Address">{addressType === "public_key" ? `${props.publicKey.slice(0, 34)}...` : props.address[addressType] || ""}
       &nbsp; {dropDownHeader} &nbsp;

@@ -2,7 +2,8 @@ import React from 'react';
 import {
   QuestionCircleOutlined,
 } from "@ant-design/icons";
-import { Avatar } from "antd";
+import { Avatar, Button } from "antd";
+
 import { CreateContractTransaction } from "@moosty/lisk-recurring-payment/dist-node";
 
 export const TransactionActions = (props) => {
@@ -20,20 +21,20 @@ export const TransactionActions = (props) => {
       const contractPublicKey = tx.getContractPublicKey();
       return (
         <div className="TransactionActionsContainer">
-          <span className="TransactionActionsSubTitle">
-            <a onClick={() => props.setCurrentView("contract", {
+          
+            <Button onClick={() => props.setCurrentView("contract", {
               id: contractPublicKey
-            })}>View Contract</a></span>
+            })}>View Contract</Button>
         </div>
       );
     default:
       // every other transaction
       return (
         <div className="TransactionActionsContainer">
-          <span className="TransactionActionsSubTitle">
-            <a onClick={() => props.setCurrentView("contract", {
+          
+            <Button onClick={() => props.setCurrentView("contract", {
               id: props.tx.asset.contractPublicKey
-            })}>View Contract</a></span>
+            })}>View Contract</Button>
         </div>
       );
   }
