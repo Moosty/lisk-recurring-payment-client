@@ -76,8 +76,8 @@ export const AccountHeader = (props) => {
   return <div className={`Header`}>
     <span className="Name">{props.name}</span><br/>
     <h2 className="Balance">{parseFloat(convertBeddowsToLSK(balance.toString())).toFixed(4)} TKN
-      {canDoSprinkler && <a onClick={() => setSprinkler(true)}>+</a>}</h2>
-    
+      {canDoSprinkler && <Tooltip visible={true} title={"Request faucet tokens"} placement={"right"}><a onClick={() => setSprinkler(true)}>+</a></Tooltip>}</h2>
+
     <h2
       className="Address">{addressType === "public_key" ? `${props.publicKey.slice(0, 34)}...` : props.address[addressType] || ""}
       &nbsp; {dropDownHeader} &nbsp;
