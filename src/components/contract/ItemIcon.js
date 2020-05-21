@@ -9,6 +9,7 @@ import {
   FileProtectOutlined,
   FileSyncOutlined,
 } from "@ant-design/icons";
+import './ItemIcon.less';
 import { Avatar } from "antd";
 // https://ant.design/components/icon/
 
@@ -16,19 +17,19 @@ export const ContractItemIcon = (props) => {
 
   switch (props.contract.asset.state) {
     case "SENDER_REVIEW":
-      return (<Avatar style={{backgroundColor: '#887a00'}} icon={<FileSearchOutlined/>}/>);
+      return (<Avatar className={"ReviewIcon"} icon={<FileSearchOutlined/>}/>);
     case "RECIPIENT_REVIEW":
-      return (<Avatar style={{backgroundColor: '#887a00'}} icon={<FileSearchOutlined/>}/>);
+      return (<Avatar className={"ReviewIcon"} icon={<FileSearchOutlined/>}/>);
     case "ACCEPTED":
-      return (<Avatar style={{backgroundColor: '#54972a'}} icon={<FileProtectOutlined/>}/>);
+      return (<Avatar className={"AcceptIcon"} icon={<FileProtectOutlined/>}/>);
     case "ACTIVE":
-      return (<Avatar style={{backgroundColor: '#248b1d'}} icon={<FileSyncOutlined />}/>);
+      return (<Avatar className={"ActiveIcon"} icon={<FileSyncOutlined />}/>);
     case "ENDED":
-      return (<Avatar style={{backgroundColor: '#82827f'}} icon={<FileDoneOutlined/>}/>);
+      return (<Avatar className={"EndIcon"} icon={<FileDoneOutlined/>}/>);
     case "TERMINATED_RECIPIENT":
-      return (<Avatar style={{backgroundColor: '#7d0610'}} icon={<FileExclamationOutlined/>}/>);
+      return (<Avatar className={"TerminateIcon"} icon={<FileExclamationOutlined/>}/>);
     case "TERMINATED_SENDER":
-      return (<Avatar style={{backgroundColor: '#7d0610'}} icon={<FileExclamationOutlined/>}/>);
+      return (<Avatar className={"TerminateIcon"} icon={<FileExclamationOutlined/>}/>);
     case 13020:
       // Review
       if (!props.tx.asset.accept) {

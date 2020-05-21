@@ -4,6 +4,7 @@ import {
 } from '@ant-design/icons';
 import { Mnemonic } from '@liskhq/lisk-passphrase';
 import { Input, Form, Button, Row, Col } from 'antd';
+import './Login.less';
 import { useCheckName } from "../hooks/useCheckName";
 
 const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => {
@@ -34,7 +35,7 @@ const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => 
   }, [exist, canLogin]);
 
   return (
-    <div className={`Login`}>
+    <div className="login">
       <h1>Login</h1>
       <Form
         {...formItemLayout}
