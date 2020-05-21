@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
-import { useTimestamp } from "../../hooks/timestamp";
+import { useTimestamp } from "../../../hooks/timestamp";
 import { Timeline } from "antd";
-import { config } from "../../config/config";
+import { config } from "../../../config/config";
 import './HistoryItem.less';
 export const HistoryItem = ({tx, className, lastId}) => {
   const [timestamp, setBlockId] = useTimestamp();
@@ -12,6 +12,7 @@ export const HistoryItem = ({tx, className, lastId}) => {
     13030: "Funded contract",
     13040: "Requested payment",
     13050: "Terminated contract",
+    99999: "Contract Ended",
   }
   const colors = {
     13010: "green",
@@ -19,9 +20,13 @@ export const HistoryItem = ({tx, className, lastId}) => {
     13030: "orange",
     13040: "green",
     13050: "red",
+    99999: "green",
   }
+
   useEffect(() => {
-    setBlockId(tx.blockId);
+    if (tx.blockId) {
+      setBlockId(tx.blockId);
+    }
     if (lastId) {
       setBlockIdLast(lastId);
     }

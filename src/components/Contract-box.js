@@ -1,13 +1,12 @@
 /* global BigInt */
 import React, { useEffect, useState } from 'react';
+import { Result, Button } from 'antd';
 import _ from 'lodash';
 import { ContractItemIcon } from "./contract/ItemIcon";
 import { ContractItemDetails } from "./contract/ItemDetails";
-import { ContractItemActions } from "./contract/ItemActions";
-import './Contract-box.less';
 import { ReviewModal } from "./contract/ReviewModal";
-import { HistoryBox } from "./contract/HistoryBox";
-import { Result, Button } from 'antd';
+import { HistoryBox, DashboardBox, ContractInfoBox } from "./contract/boxes";
+import './Contract-box.less';
 
 export const ContractBox = (props) => {
 
@@ -52,12 +51,14 @@ export const ContractBox = (props) => {
     let asset = {
       accept: changes === 0,
       contractPublicKey: props.contract.publicKey,
+      data: data.data
     }
     if (changes !== 0) {
       asset = {
         ...asset,
         unit: updatedUnit,
         unitOld: oldUnit,
+        data: data.data,
       }
     }
     props.doReview(asset, setReviewState);
@@ -103,24 +104,32 @@ export const ContractBox = (props) => {
   if (props.box !== "not-found") {
     if (props.box === "status") {
       return (<div ref={domRef} className={className}><Result
-        status="warning"
-        title={status}
-        subTitle="Wat een fantastische situatie, cash money hoes!"
+          status="warning"
+          title={status}
+          subTitle="Wat een fantastische situatie, cash money hoes!"
 
-      />
+        />
 
-      </div>
-  );
+        </div>
+      );
     } else if (props.box === "history") {
       className += " History"
       return (<div ref={domRef} className={className}>
-        <HistoryBox contractPublicKey={props.contract.publicKey}/>
+        <HistoryBox contractPublicKey={props.contract.publicKey} contract={props.contract}/>
       </div>);
     } else if (props.box === "Overview") {
       return (<div ref={domRef} className={className}>
         <h1 className="StatusTitle">Overview</h1>
       </div>);
-    } else if (props.box === "review") {
+    } else if (props.box === "dashboard") {
+      return (<div ref={domRef} className={className}>
+        <DashboardBox contract={props.contract}/>
+      </div>);
+    } else if (props.box === "contract") {
+      return (<div ref={domRef} className={className}>
+        <ContractInfoBox contract={props.contract}/>
+      </div>);
+    } else  if (props.box === "review") {
       return (
         <div ref={domRef}>
           <Button
@@ -199,7 +208,7 @@ export const ContractBox = (props) => {
     return (<div ref={domRef} className={className}>
       <ContractItemIcon contract={props.contract}/>
       <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
-      
+
     </div>);
   } else {
     return (<div ref={domRef} className={className}>No contracts</div>);

@@ -27,7 +27,7 @@ export const Contract = ({
 
   if (contract.publicKey && contract.asset) {
     let i = 0;
-    const boxes = ['overview','status'];
+    const boxes = ['overview','status', 'dashboard'];
     if (contract.asset.state === 'ACTIVE' && contract.asset.recipientPublicKey === publicKey) {
       boxes.push('request');
     }
@@ -41,7 +41,7 @@ export const Contract = ({
       boxes.push('review');
     }
 
-   
+
     if (contract.asset.state === 'ACTIVE' || contract.asset.state === 'ACCEPTED') {
       if (contract.asset.senderPublicKey === publicKey) {
         boxes.push('state-funding');
@@ -51,6 +51,7 @@ export const Contract = ({
         boxes.push('state-funding');
       }
     }
+    boxes.push('contract');
     boxes.push('history');
     const cts = boxes.map(box => {
       i++;
