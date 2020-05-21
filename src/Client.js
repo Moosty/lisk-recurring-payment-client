@@ -18,6 +18,7 @@ import { doReview } from "./transactions/review";
 import { doTerminate } from "./transactions/terminate";
 import { doRequest } from "./transactions/request";
 import { doFund } from "./transactions/fund";
+import { About } from "./components/About";
 
 const Context = React.createContext({name: 'Default'});
 
@@ -117,7 +118,7 @@ export const Client = memo(({id, close}) => {
             doTerminate={(data) => doTerminate(passphrase, data, api)}
             doReview={(data, setClose) => checkReview(data, setClose)}
           />}
-          {currentView.view === "about" && <h1>About</h1>}
+          {currentView.view === "about" && <About />}
           <Footer
             currentView={currentView}
             setView={setCurrentView}
