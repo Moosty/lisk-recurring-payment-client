@@ -1,6 +1,7 @@
 import React from 'react';
 import './Details.less';
 import { useSimpleContract } from "../../hooks/simpleContract";
+import { CreateContractTransaction } from "@moosty/lisk-recurring-payment/dist-node";
 
 export const TransactionDetails = (props) => {
 
@@ -20,10 +21,15 @@ export const TransactionDetails = (props) => {
       );
     case 13010:
       // Create
+      const tx = new CreateContractTransaction(props.tx);
+      const contractPublicKey = tx.getContractPublicKey();
       return (
         <div className="TransactionDetailsContainer">
           <span className="TransactionDetailsTitle">Created recurring payment contract</span>
-          <span className="TransactionDetailsSubTitle">Contract: <b>{props.tx.asset.title}</b></span>
+          <span className="TransactionDetailsSubTitle">Contract: <b><a
+            onClick={() => props.setCurrentView("contract", {
+              id: contractPublicKey
+            })}>{props.tx.asset.title}</a></b></span>
         </div>
       );
     case 13020:
@@ -32,14 +38,22 @@ export const TransactionDetails = (props) => {
         return (
           <div className="TransactionDetailsContainer">
             <span className="TransactionDetailsTitle">Reviewed contract updated</span>
-            <span className="TransactionDetailsSubTitle">Contract: <b>{contract ? contract.asset.title : "..."}</b></span>
+            {contract && <span
+              className="TransactionDetailsSubTitle">Contract: <b><a
+              onClick={() => props.setCurrentView("contract", {
+                id: contract.publicKey
+              })}>{contract.asset.title}</a></b></span>}
           </div>
         );
       } else {
         return (
           <div className="TransactionDetailsContainer">
             <span className="TransactionDetailsTitle">Reviewed contract accepted</span>
-            <span className="TransactionDetailsSubTitle">Contract: <b>{contract ? contract.asset.title : "..."}</b></span>
+            {contract && <span
+              className="TransactionDetailsSubTitle">Contract: <b><a
+              onClick={() => props.setCurrentView("contract", {
+                id: contract.publicKey
+              })}>{contract.asset.title}</a></b></span>}
           </div>
         );
       }
@@ -48,7 +62,10 @@ export const TransactionDetails = (props) => {
       return (
         <div className="TransactionDetailsContainer">
           <span className="TransactionDetailsTitle">Funded contract</span>
-          <span className="TransactionDetailsSubTitle">Contract: <b>{contract ? contract.asset.title : "..."}</b></span>
+          {contract && <span className="TransactionDetailsSubTitle">Contract: <b><a
+            onClick={() => props.setCurrentView("contract", {
+              id: contract.publicKey
+            })}>{contract.asset.title}</a></b></span>}
         </div>
       );
     case 13040:
@@ -56,7 +73,10 @@ export const TransactionDetails = (props) => {
       return (
         <div className="TransactionDetailsContainer">
           <span className="TransactionDetailsTitle">Requested payment</span>
-          <span className="TransactionDetailsSubTitle">Contract: <b>{contract ? contract.asset.title : "..."}</b></span>
+          {contract && <span className="TransactionDetailsSubTitle">Contract: <b><a
+            onClick={() => props.setCurrentView("contract", {
+              id: contract.publicKey
+            })}>{contract.asset.title}</a></b></span>}
         </div>
       );
     case 13050:
@@ -64,7 +84,10 @@ export const TransactionDetails = (props) => {
       return (
         <div className="TransactionDetailsContainer">
           <span className="TransactionDetailsTitle">Terminated contract</span>
-          <span className="TransactionDetailsSubTitle">Contract: <b>{contract ? contract.asset.title : "..."}</b></span>
+          {contract && <span className="TransactionDetailsSubTitle">Contract: <b><a
+            onClick={() => props.setCurrentView("contract", {
+              id: contract.publicKey
+            })}>{contract.asset.title}</a></b></span>}
         </div>
       );
     default:

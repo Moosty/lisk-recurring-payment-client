@@ -41,7 +41,7 @@ export const TransactionItem = (props) => {
       <Tooltip title={<TimeAgo date={new Date(1000 * (Math.floor(new Date(config.epoch) / 1000) + timestamp))}/>}>
         <div ref={domRef} className={className}>
           <TransactionIcon tx={props.tx}/>
-          <TransactionDetails tx={props.tx}/>
+          <TransactionDetails tx={props.tx} setCurrentView={props.setCurrentView}/>
           <TransactionActions tx={props.tx} setCurrentView={props.setCurrentView}/>
         </div>
       </Tooltip>);

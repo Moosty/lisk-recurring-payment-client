@@ -15,13 +15,13 @@ export const TransactionActions = (props) => {
     case 13001:
       // faucet
       return (<div/>);
-    case 13010:
+    case 13011:
       // Create
       const tx = new CreateContractTransaction(props.tx);
       const contractPublicKey = tx.getContractPublicKey();
       return (
         <div className="TransactionActionsContainer">
-          
+
             <Button onClick={() => props.setCurrentView("contract", {
               id: contractPublicKey
             })}>View Contract</Button>
@@ -29,13 +29,13 @@ export const TransactionActions = (props) => {
       );
     default:
       // every other transaction
-      return (
-        <div className="TransactionActionsContainer">
-          
-            <Button onClick={() => props.setCurrentView("contract", {
-              id: props.tx.asset.contractPublicKey
-            })}>View Contract</Button>
-        </div>
-      );
+      // return (
+      //   <div className="TransactionActionsContainer">
+      //       <Button onClick={() => props.setCurrentView("contract", {
+      //         id: props.tx.asset.contractPublicKey
+      //       })}>View Contract</Button>
+      //   </div>
+      // );
+      return <div />
   }
 }
