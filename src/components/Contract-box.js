@@ -5,7 +5,7 @@ import _ from 'lodash';
 import { ContractItemIcon } from "./contract/ItemIcon";
 import { ContractItemDetails } from "./contract/ItemDetails";
 import { ReviewModal } from "./contract/ReviewModal";
-import { HistoryBox, DashboardBox, ContractInfoBox } from "./contract/boxes";
+import { HistoryBox, DashboardBox, ContractInfoBox, ContractBoxItemActions } from "./contract/boxes";
 import './Contract-box.less';
 
 export const ContractBox = (props) => {
@@ -234,6 +234,7 @@ export const ContractBox = (props) => {
       return (<div ref={domRef} className={className}>
         <ContractItemIcon contract={props.contract}/>
         <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
+        <ContractBoxItemActions doRequest={props.doRequest} contract={props.contract} publicKey={props.publicKey} checkContractReview={checkContractReview} />
       </div>);
     } else {
       return <div ref={domRef}/>
