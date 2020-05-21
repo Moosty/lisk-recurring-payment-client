@@ -26,9 +26,9 @@ export const ContractItemDetails = (props) => {
       return (
         <div className="ContractItemDetailsContainer">
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
-          {props.contract.asset.recipientPublicKey === props.publicKey ?
-            <span className="ContractItemDetailsSubTitle">Awaiting funds from sender</span> :
-            <span className="ContractItemDetailsSubTitle">Awaiting funds from you</span>}
+          {props.contract.asset.senderPublicKey === props.publicKey ?
+            <span className="ContractItemDetailsSubTitle">Awaiting funds from you</span> :
+          <span className="ContractItemDetailsSubTitle">Awaiting funds from sender</span>}
         </div>
       );
     case "ACTIVE":

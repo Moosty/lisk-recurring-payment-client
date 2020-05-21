@@ -35,7 +35,6 @@ export const ReviewModal = ({visible, onReview, onCancel, publicKey, contract}) 
     };
     setUpdated(false);
     _.map(unit, (value, key) => {
-      console.log(value, contract.asset.unit[key])
       if (value !== contract.asset.unit[key]) {
         setUpdated(true);
       }

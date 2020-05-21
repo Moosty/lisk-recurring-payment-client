@@ -4,7 +4,7 @@ import { config } from "../config/config";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
 import { getNonce } from "./helpers/nonce";
 // 186000
-export const doReview = async (passphrase, data, api) => {
+export const doReview = async (passphrase, data, api, setClose, cb) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
   const tx = new ReviewContractTransaction({
@@ -35,10 +35,11 @@ export const doReview = async (passphrase, data, api) => {
           placement: "topRight",
           duration: 10
         })
+        setClose(false);
+        cb(true);
       }
       if (data.errors) {
         data.errors.map(error => {
-          console.log(error)
           api.error({
             message: data.message,
             description: error.message,
@@ -46,6 +47,7 @@ export const doReview = async (passphrase, data, api) => {
             duration: 10
           })
         })
+        cb(false, data.errors);
       }
     })
 }

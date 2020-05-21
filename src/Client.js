@@ -48,8 +48,14 @@ export const Client = memo(({id, close}) => {
     doCreate(passphrase, data, api)
   }
 
-  const checkReview = (data) => {
-    doReview(passphrase, data, api)
+  const checkReview = (data, setClose) => {
+    doReview(passphrase, data, api, setClose, resultReview)
+  }
+
+  const resultReview = (status, errors = []) => {
+    if (status) {
+
+    }
   }
 
   if (loggedIn) {
@@ -58,7 +64,7 @@ export const Client = memo(({id, close}) => {
       <Context.Provider value={{name: 'Recurring Payment'}}>
         {contextHolder}
         <div className={className}>
-          {currentView.view !== "contract" && <AccountHeader
+          {(currentView.view !== "contract" || currentView.view === "contract") && <AccountHeader
             currentView={currentView}
             loggedIn={loggedIn}
             publicKey={publicKey}
@@ -67,7 +73,7 @@ export const Client = memo(({id, close}) => {
             setLogout={() => setLoggedIn(false)}
             requestSprinkler={(nonce) => doSprinkler(passphrase, name, nonce)}
           />}
-          {currentView.view === "contract" && <ContractHeader
+          {currentView.view === "contract_tmp" && <ContractHeader
             currentView={currentView}
             loggedIn={loggedIn}
             publicKey={publicKey}
@@ -103,7 +109,7 @@ export const Client = memo(({id, close}) => {
             doFund={(data) => doFund(passphrase, data, api)}
             doRequest={(data) => doRequest(passphrase, data, api)}
             doTerminate={(data) => doTerminate(passphrase, data, api)}
-            doReview={(data) => checkReview(data)}
+            doReview={(data, setClose) => checkReview(data, setClose)}
           />}
           {currentView.view === "about" && <h1>About</h1>}
           <Footer

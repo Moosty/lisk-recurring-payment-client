@@ -60,8 +60,7 @@ export const ContractBox = (props) => {
         unitOld: oldUnit,
       }
     }
-    props.doReview(asset, props.api);
-    setVisible(false);
+    props.doReview(asset, setReviewState);
   }
 
   let stateClass = "Status-";
@@ -103,11 +102,11 @@ export const ContractBox = (props) => {
   let className = `Contract-box ${stateClass} ${isVisible ? ' is-visible' : ''}`;
   if (props.box !== "not-found") {
     if (props.box === "status") {
-      return (<div ref={domRef} className={className}><Result 
+      return (<div ref={domRef} className={className}><Result
         status="warning"
         title={status}
         subTitle="Wat een fantastische situatie, cash money hoes!"
-         
+
       />
 
       </div>
