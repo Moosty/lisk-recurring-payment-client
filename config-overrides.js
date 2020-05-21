@@ -15,7 +15,7 @@ module.exports = override(
   ),
   addWebpackPlugin(new AntdDayjsWebpackPlugin()),
   fixBabelImports('antd', {
-    libraryDirectory: 'en',
+    libraryDirectory: 'es',
     style: true,
   }),
   addLessLoader({
