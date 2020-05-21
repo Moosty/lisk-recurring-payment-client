@@ -143,7 +143,7 @@ export const ReviewModal = ({visible, onReview, onCancel, publicKey, contract}) 
           <span> &nbsp; Unit(s)</span>
         </Form.Item>
 
-        <Form.Item name="data" label="Data">
+        <Form.Item name="data" label="Note">
           <Input maxLength={64}/>
         </Form.Item>
       </Form>
