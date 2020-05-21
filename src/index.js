@@ -6,7 +6,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import JavascriptTimeAgo from 'javascript-time-ago';
 import en from 'javascript-time-ago/locale/en';
-import "antd/dist/antd.css";
+// import "antd/dist/antd.css";
 
 JavascriptTimeAgo.locale(en)
 

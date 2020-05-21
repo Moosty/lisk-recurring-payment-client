@@ -28,29 +28,7 @@ export const Contract = ({
   if (contract.publicKey && contract.asset) {
     let i = 0;
     const boxes = ['overview','status', 'dashboard'];
-    if (contract.asset.state === 'ACTIVE' && contract.asset.recipientPublicKey === publicKey) {
-      boxes.push('request');
-    }
-    if (contract.asset.senderPublicKey === publicKey && contract.asset.state === 'ACCEPTED') {
-      boxes.push('fund');
-    }
 
-    if ((contract.asset.state === 'SENDER_REVIEW' && contract.asset.senderPublicKey === publicKey) ||
-      (contract.asset.state === 'RECIPIENT_REVIEW' && contract.asset.recipientPublicKey === publicKey)
-    ) {
-      boxes.push('review');
-    }
-
-
-    if (contract.asset.state === 'ACTIVE' || contract.asset.state === 'ACCEPTED') {
-      if (contract.asset.senderPublicKey === publicKey) {
-        boxes.push('state-funding');
-        boxes.push('state-payment');
-      } else {
-        boxes.push('state-payment');
-        boxes.push('state-funding');
-      }
-    }
     boxes.push('contract');
     boxes.push('history');
     const cts = boxes.map(box => {
@@ -75,7 +53,6 @@ export const Contract = ({
     return (
       <div className="ContractContainer">
         <div className="ContractContent">
-          {/*Contract {props.contractId}*/}
           {cts}
         </div>
       </div>);

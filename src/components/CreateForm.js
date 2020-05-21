@@ -67,9 +67,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
         form
           .validateFields()
           .then(values => {
-            form.resetFields();
-            onCreate(values);
-            onCancel();
+            onCreate(values, form.resetFields);
           })
           .catch(info => {
             console.log('Validate Failed:', info);

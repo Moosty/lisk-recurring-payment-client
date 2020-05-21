@@ -7,7 +7,7 @@ import { getNonce } from "./helpers/nonce";
 
 const { convertLSKToBeddows } = utils;
 
-export const doCreate = async (passphrase, data, api) => {
+export const doCreate = async (passphrase, data, api, setClose, cancel, cb) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
   const tx = new CreateContractTransaction({
@@ -43,7 +43,6 @@ export const doCreate = async (passphrase, data, api) => {
   fetch(`${config.node}transactions`, options)
     .then(result => result.json())
     .then(data => {
-
       if (data.meta && data.meta.status) {
         api.success({
           message: "Send transaction",
@@ -51,6 +50,8 @@ export const doCreate = async (passphrase, data, api) => {
           placement: "topRight",
           duration: 10
         })
+        setClose(false);
+        cb(true);
       }
       if (data.errors) {
         data.errors.map(error => {
@@ -61,6 +62,8 @@ export const doCreate = async (passphrase, data, api) => {
             duration: 10
           })
         })
+        cb(false, data.errors);
+        setClose(true);
       }
     })
 }

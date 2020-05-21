@@ -44,8 +44,8 @@ export const Client = memo(({id, close}) => {
     setCreate(!createIsOpen);
   }
 
-  const checkContract = (data) => {
-    doCreate(passphrase, data, api)
+  const checkContract = (data, cancel) => {
+    doCreate(passphrase, data, api, setCreate, cancel, resultCreate)
   }
 
   const checkReview = (data, setClose) => {
@@ -53,6 +53,12 @@ export const Client = memo(({id, close}) => {
   }
 
   const resultReview = (status, errors = []) => {
+    if (status) {
+
+    }
+  }
+
+  const resultCreate = (status, errors = []) => {
     if (status) {
 
     }

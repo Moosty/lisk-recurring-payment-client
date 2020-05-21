@@ -25,6 +25,7 @@
     "react-app-rewire-less": "^2.1.3",
     "react-app-rewired": "^2.1.6",
     "react-copy-to-clipboard": "^5.0.2",
+    "react-countdown": "^2.2.1",
     "react-dom": "^16.13.1",
     "react-infinite-scroller": "^1.2.4",
     "react-scripts": "3.4.1",

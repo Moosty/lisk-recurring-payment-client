@@ -66,25 +66,31 @@ export const ContractBox = (props) => {
 
   let stateClass = "Status-";
   let status = "";
+  let action = false;
   if (props.contract && props.box === "status") {
     switch (props.contract.asset.state) {
       case "SENDER_REVIEW":
+        action = props.contract.asset.senderPublicKey === props.publicKey;
         stateClass += props.contract.asset.senderPublicKey === props.publicKey ? "review" : "review-other";
         status = props.contract.asset.senderPublicKey === props.publicKey ? "You need to review contract" : "Sender needs to review contract";
         break;
       case "RECIPIENT_REVIEW":
+        action = props.contract.asset.recipientPublicKey === props.publicKey;
         stateClass += props.contract.asset.recipientPublicKey === props.publicKey ? "review" : "review-other";
-        status = props.contract.asset.senderPublicKey === props.publicKey ? "Recipient needs to review contract" : "You need to review contract";
+        status = props.contract.asset.recipientPublicKey === props.publicKey ? "You need to review contract" : "Recipient needs to review contract";
         break;
       case "ACCEPTED":
+        action = props.contract.asset.senderPublicKey === props.publicKey;
         stateClass += "accepted";
         status = props.contract.asset.senderPublicKey === props.publicKey ? "You needs to fund contract" : "Sender needs to fund contract";
         break;
       case "ACTIVE":
+        action = false;
         stateClass += "active";
         status = "Contract is active";
         break;
       case "ENDED":
+        action = false
         stateClass += "ended";
         status = "Contract is complete";
         break;
@@ -102,12 +108,28 @@ export const ContractBox = (props) => {
   }
   let className = `Contract-box ${stateClass} ${isVisible ? ' is-visible' : ''}`;
   if (props.box !== "not-found") {
-    if (props.box === "status") {
+    if (props.box === "status" && action) {
       return (<div ref={domRef} className={className}><Result
           status="warning"
           title={status}
-          subTitle="Wat een fantastische situatie, cash money hoes!"
-
+          extra={
+            ((props.contract.asset.state === 'SENDER_REVIEW' && props.contract.asset.senderPublicKey === props.publicKey) ||
+              (props.contract.asset.state === 'RECIPIENT_REVIEW' && props.contract.asset.recipientPublicKey === props.publicKey)
+            ) && <div>
+              <Button
+                onClick={() => setReviewState(true)}
+                type="button"
+                className="btn-success btn-lg">
+                Review Contract
+              </Button>
+              <ReviewModal
+                visible={reviewIsOpen}
+                onReview={(e, reset) => checkContractReview(e, reset)}
+                onCancel={setReviewState}
+                publicKey={props.publicKey}
+                contract={props.contract}/>
+            </div>
+          }
         />
 
         </div>
@@ -122,14 +144,18 @@ export const ContractBox = (props) => {
         <h1 className="StatusTitle">Overview</h1>
       </div>);
     } else if (props.box === "dashboard") {
-      return (<div ref={domRef} >
-        <DashboardBox contract={props.contract}/>
+      return (<div ref={domRef}>
+
+        <DashboardBox publicKey={props.publicKey}
+                      doFund={props.doFund}
+                      doTerminate={props.doTerminate}
+                      doRequest={props.doRequest} contract={props.contract}/>
       </div>);
     } else if (props.box === "contract") {
       return (<div ref={domRef} className={className}>
         <ContractInfoBox contract={props.contract}/>
       </div>);
-    } else  if (props.box === "review") {
+    } else if (props.box === "review") {
       return (
         <div ref={domRef}>
           <Button
@@ -204,12 +230,14 @@ export const ContractBox = (props) => {
         {props.contract.asset.payments}/{props.contract.asset.unit.total} payments done
       </div>)
     }
-    console.log(props)
-    return (<div ref={domRef} className={className}>
-      <ContractItemIcon contract={props.contract}/>
-      <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
-
-    </div>);
+    if (props.box !== "status") {
+      return (<div ref={domRef} className={className}>
+        <ContractItemIcon contract={props.contract}/>
+        <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
+      </div>);
+    } else {
+      return <div ref={domRef}/>
+    }
   } else {
     return (<div ref={domRef} className={className}>No contracts</div>);
   }
