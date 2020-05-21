@@ -1,10 +1,11 @@
 @import '../../../variables';
 .DashboardContainer {
-  width: 100%;
+  
   display: flex;
   flex-wrap: wrap;
   background: none;
   justify-content: space-between;
+  margin: 16px;
 
 }
 
@@ -15,9 +16,11 @@
 }
 
 .DashboardBox {
-  width: calc((@client-width / 2) - 2em);
+  /*width: calc((@client-width / 2) - 2em);*/
+  width: calc(50% - 8px);
+  margin-bottom: 16px;
   padding: 16px;
-  margin: 16px;
+  
   box-shadow: 0 0 8px rgba(0, 0, 0, .125);
   height: auto;
   opacity: 1;
