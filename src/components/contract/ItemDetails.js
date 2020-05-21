@@ -46,7 +46,7 @@ export const ContractItemDetails = (props) => {
         <div className="ContractItemDetailsContainer">
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.recipientPublicKey === props.publicKey ?
-            <span className="ContractItemDetailsSubTitle"><TimeAgo date={next}/></span> :
+            <span className="ContractItemDetailsSubTitle">{(nextPayment - now) > 0 ? <p>Next payment <TimeAgo date={next}/></p>: `Payment pending`}</span> :
             <span className="ContractItemDetailsSubTitle">Contract is active</span>}
         </div>
       );
