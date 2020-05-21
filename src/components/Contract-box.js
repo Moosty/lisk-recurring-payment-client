@@ -200,7 +200,7 @@ export const ContractBox = (props) => {
     return (<div ref={domRef} className={className}>
       <ContractItemIcon contract={props.contract}/>
       <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
-      <ContractItemActions contract={props.contract} setCurrentView={props.setCurrentView}/>
+      
     </div>);
   } else {
     return (<div ref={domRef} className={className}>No contracts</div>);
