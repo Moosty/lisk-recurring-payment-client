@@ -122,7 +122,7 @@ export const ContractBox = (props) => {
         <h1 className="StatusTitle">Overview</h1>
       </div>);
     } else if (props.box === "dashboard") {
-      return (<div ref={domRef} className={className}>
+      return (<div ref={domRef} >
         <DashboardBox contract={props.contract}/>
       </div>);
     } else if (props.box === "contract") {

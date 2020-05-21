@@ -57,9 +57,9 @@ export const Client = memo(({id, close}) => {
 
     }
   }
-
+  const className = `Wallet Wallet-${id}`;
   if (loggedIn) {
-    const className = `Wallet Wallet-${id}`;
+
     return (
       <Context.Provider value={{name: 'Recurring Payment'}}>
         {contextHolder}
@@ -127,11 +127,11 @@ export const Client = memo(({id, close}) => {
     )
   } else {
     return (
-      <Login passphrase={passphrase} username={name}
-             setPassphrase={(value) => setPassphrase(value)}
-             setLogin={() => setLoggedIn(true)}
-             setUsername={(value) => setName(value)}
-             id={id}/>
+        <Login passphrase={passphrase} username={name}
+               setPassphrase={(value) => setPassphrase(value)}
+               setLogin={() => setLoggedIn(true)}
+               setUsername={(value) => setName(value)}
+               id={id}/>
     );
   }
 });
