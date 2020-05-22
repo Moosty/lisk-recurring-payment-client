@@ -40,8 +40,8 @@
     "build-old": "react-scripts build",
     "test-old": "react-scripts test",
     "eject": "react-scripts eject",
-    "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "start": "node ./scripts/start-non-split.js",
+    "build": "node ./scripts/build-non-split.js",
     "test": "react-app-rewired test"
   },
   "eslintConfig": {
