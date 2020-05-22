@@ -29,30 +29,30 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         <Progress type="dashboard"
                   percent={contract.asset.payments > 0 ? (contract.asset.payments / contract.asset.unit.total) * 100 : 0}
                   format={() => `${contract.asset.payments}/${contract.asset.unit.total}`}/><br/>
-        Payments
+        <span>Payments</span>
       </div>
       <div className="DashboardBox">
         <Progress type="dashboard" percent={fundedUnits > 0 ? (contract.asset.unit.total / fundedUnits) * 100 : 0}
                   format={() => `${fundedUnits}/${contract.asset.unit.total}`}/><br/>
-        Funds
+        <span>Funds</span>
       </div>
       {publicKey === contract.asset.recipientPublicKey && fundedUnits > 0 &&
       (contract.asset.state === "ACTIVE" || contract.asset.state === "ACCEPTED") &&
       <div className="DashboardBox">
-        <h2><Countdown date={next} key={next}>
+        <h3><Countdown date={next} key={next}>
           {request && fundedUnits > 0 && <Button onClick={() => {
             setRequest(false);
             doRequest({contractPublicKey: contract.publicKey})
           }} type="button" className="btn-success btn-lg">
             Request now
           </Button>}
-        </Countdown></h2>
-        Next payment
+        </Countdown></h3>
+        <span>Next payment</span>
       </div>}
       {publicKey === contract.asset.recipientPublicKey && contract.asset.state === "ACTIVE" && fundedUnits > 0 &&
       <div className="DashboardBox">
         <h1>{paymentsReady}</h1>
-        Payments ready
+        <span>Payments ready</span>
       </div>}
       {contract.asset.state === "ACTIVE" && contract.asset.payments > 0 &&
       <div className="DashboardBox">
@@ -67,12 +67,12 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         }} type="button" className="btn-success btn-lg">
           Terminate contract
         </Button>}
-        {terminate && <h3>Waiting for blockchain acceptance</h3>}
+        {terminate && <span>Waiting for blockchain acceptance</span>}
       </div>}
       {publicKey === contract.asset.senderPublicKey && fundedUnits < contract.asset.unit.total &&
       (contract.asset.state === "ACTIVE" || contract.asset.state === "ACCEPTED") &&
       <div className="DashboardBox">
-        <h2>Fund</h2>
+        <span>Fund contract</span>
         {!fund && <div><InputNumber
           className="InputDashboardFund"
           precision={0}
@@ -89,7 +89,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
           }} type="button"
                   className="btn-success btn-lg">Payments
           </Button></div>}
-        {fund && <h3>Waiting for blockchain acceptance</h3>}
+        {fund && <span>Waiting for blockchain acceptance</span>}
       </div>}
     </div>
   );
