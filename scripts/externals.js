@@ -1,4 +1,1 @@
-module.exports = {
-   react: 'React',
-   'react-dom': 'ReactDOM',
-};
+module.exports = {};

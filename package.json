@@ -1,6 +1,7 @@
 {
   "name": "lisk-recurring-payment-client",
   "version": "0.2.1",
+  "homepage": "https://moosty.com/Recurring_Payment",
   "private": true,
   "dependencies": {
     "@ant-design/icons": "^4.1.0",
