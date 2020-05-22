@@ -9,8 +9,7 @@ const {convertBeddowsToLSK} = utils;
 export const ContractInfoBox = ({contract}) => {
 
   const recipient = useAccount(contract.asset.recipientPublicKey);
-  const sender = useAccount(contract.asset.recipientPublicKey);
-  console.log(contract, recipient, sender)
+  const sender = useAccount(contract.asset.senderPublicKey);
   return (
     <div className="ContractInfo">
       <h2>{contract.asset.title}</h2>
