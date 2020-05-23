@@ -7,7 +7,6 @@ import { getNonce } from "./helpers/nonce";
 export const doTerminate = async (passphrase, data, api) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
   const nonce = await getNonce(publicKey);
-  console.log(data)
   const tx = new TerminateContractTransaction({
     nonce: nonce.toString(),
     senderPublicKey: publicKey,

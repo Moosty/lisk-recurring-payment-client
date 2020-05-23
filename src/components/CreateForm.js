@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Modal, Form, Input, Select, InputNumber } from 'antd';
 import './CreateForm.less';
+import { FindUser } from "./FindUser";
 
 const {Option} = Select;
 export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
@@ -13,24 +14,26 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
   const senderInputRef = useRef(null);
   const recipientInputRef = useRef(null);
 
-  const setSender = (event) => {
-    setSenderKey(event.target.value);
-    if (event.target.value === "") {
+  const setSender = (value) => {
+    setSenderKey(value);
+    if (value === "") {
       setRecipientDisabled(false);
-    } else if (event.target.value !== publicKey) {
+    } else if (value !== publicKey) {
       form.setFieldsValue({recipient: publicKey})
+      setRecipientKey(publicKey)
       setRecipientDisabled(true);
     } else {
       setRecipientDisabled(false);
     }
   }
 
-  const setRecipient = (event) => {
-    setRecipientKey(event.target.value);
-    if (event.target.value === "") {
+  const setRecipient = (value) => {
+    setRecipientKey(value);
+    if (value === "") {
       setSenderDisabled(false);
-    } else if (event.target.value !== publicKey) {
+    } else if (value !== publicKey) {
       form.setFieldsValue({sender: publicKey})
+      setSenderKey(publicKey)
       setSenderDisabled(true);
     } else {
       setSenderDisabled(false);
@@ -39,8 +42,8 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
 
   useEffect(() => {
     form.setFieldsValue({
-      recipient: publicKey,
-      sender: "267605ae23a157b0a82453fc48dd5c6adc25045c3a4a2a28dc6550a9518a2393",
+      recipient: "",
+      sender: "",
       title: "test",
       unitAmount: 1,
       amount: "1.0000",
@@ -67,7 +70,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
         form
           .validateFields()
           .then(values => {
-            onCreate(values, form.resetFields);
+            onCreate({ ...values, sender, recipient}, form.resetFields);
           })
           .catch(info => {
             console.log('Validate Failed:', info);
@@ -94,53 +97,11 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
         >
           <Input ref={titleRef}/>
         </Form.Item>
-        <Form.Item
-          label="Sender payments public key"
-        >
-          <Form.Item
-            noStyle
-            name="sender"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter the senders public key of this recurring payment',
-              },
-            ]}
-          >
-            <Input
-              value={sender}
-              ref={senderInputRef}
-              onChange={setSender}
-              disabled={senderDisabled}/>
-          </Form.Item>
-          <a onClick={() => {
-            form.setFieldsValue({sender: publicKey});
-            recipientInputRef.current.focus();
-          }}>Me</a>
+        <Form.Item label="Sender payments" >
+          <FindUser setValue={setSender} value={sender} />
         </Form.Item>
-        <Form.Item
-          label="Recipient payments public key"
-        >
-          <Form.Item
-            noStyle
-            name="recipient"
-            rules={[
-              {
-                required: true,
-                message: 'Please enter the recipients public key of this recurring payment',
-              },
-            ]}
-          >
-            <Input
-              value={recipient}
-              ref={recipientInputRef}
-              onChange={setRecipient}
-              disabled={recipientDisabled}/>
-          </Form.Item>
-          <a onClick={() => {
-            form.setFieldsValue({recipient: publicKey});
-            recipientInputRef.current.focus();
-          }}>Me</a>
+        <Form.Item label="Recipient payments" >
+          <FindUser setValue={setRecipient} value={recipient}/>
         </Form.Item>
         <Form.Item label="A payment unit is every" style={{marginBottom: 0}}>
           <Form.Item name="unitAmount" style={{display: 'inline-block'}} rules={[

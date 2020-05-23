@@ -76,8 +76,6 @@ export const ContractHeader = (props) => {
     </Dropdown>
   );
 
-  console.log(contract)
-
   return <div className={`ContractHeader`}>
     <span className="ContractTitle">Contract</span><span className="ContractSubTitle">{contract.asset ? contract.asset.title : ""}</span><br/>
     <h2 className="Balance">{convertBeddowsToLSK(balance.toString())} TKN</h2>

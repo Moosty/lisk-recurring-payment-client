@@ -41,7 +41,6 @@ export const doRequest = async (passphrase, data, api) => {
       }
       if (data.errors) {
         data.errors.map(error => {
-          console.log(error)
           api.error({
             message: data.message,
             description: error.message,

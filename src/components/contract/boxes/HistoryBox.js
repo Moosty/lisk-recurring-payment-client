@@ -14,7 +14,6 @@ export const HistoryBox = (props) => {
     );
   });
   if (txs.length > 0 && props.contract.asset.state === "ENDED") {
-    console.log(txs[txs.length-1].blockId)
     items.unshift(<HistoryItem {...props} lastId={txs[txs.length-1].blockId} key={"ended-history"} tx={{type: 99999, blockId: txs[txs.length-1].blockId}}/>)
   }
   return (

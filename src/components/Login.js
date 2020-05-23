@@ -15,6 +15,9 @@ const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => 
   const refreshPassphrase = () => {
     setUsername("");
     setPassphrase(Mnemonic.generateMnemonic());
+    if (nameInput.current) {
+      nameInput.current.focus();
+    }
   }
 
   const formItemLayout = {
@@ -29,7 +32,7 @@ const Login = ({passphrase, username, setPassphrase, setLogin, setUsername}) => 
   };
 
   useEffect(() => {
-    if (nameInput.current) {
+    if (username && nameInput.current) {
       nameInput.current.focus();
     }
   }, [exist, canLogin]);
