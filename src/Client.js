@@ -19,12 +19,13 @@ import { doTerminate } from "./transactions/terminate";
 import { doRequest } from "./transactions/request";
 import { doFund } from "./transactions/fund";
 import { About } from "./components/About";
+import { Mnemonic } from "@liskhq/lisk-passphrase";
 
 const Context = React.createContext({name: 'Default'});
 
 export const Client = memo(({id, close}) => {
   const [name, setName] = useName(null);
-  const [passphrase, setPassphrase] = useState("cash long chest mutual liar oil echo noble quantum excite hole lawn");
+  const [passphrase, setPassphrase] = useState(Mnemonic.generateMnemonic());
   const [loggedIn, setLoggedIn] = useState(false);
   const [publicKey, setPublicKey] = useState("");
   const [address, setAddress] = useState({base32_address: "", old_address: "", binary_address: ""});
