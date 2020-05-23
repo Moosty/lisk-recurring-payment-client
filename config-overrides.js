@@ -8,9 +8,9 @@ const customizer = () => config => {
 
 module.exports = override(
   customizer({
-      global: true,
-      Buffer: true,
-      BigInt: true,
+      global: false,
+      Buffer: false,
+      BigInt: false,
     }
   ),
   addWebpackPlugin(new AntdDayjsWebpackPlugin()),
