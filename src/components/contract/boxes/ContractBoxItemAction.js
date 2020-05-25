@@ -15,7 +15,6 @@ export const ContractBoxItemActions = (props) => {
     now,
     fundedUnits,
   ] = usePayments(props.contract);
-  const [request, setRequest] = useState(true);
 
   return (
     <div className="ContractItemActionsContainer">
@@ -30,18 +29,25 @@ export const ContractBoxItemActions = (props) => {
         </Button>
         <ReviewModal
           visible={reviewIsOpen}
-          onReview={(e, reset) => props.checkContractReview(e, reset)}
+          onReview={(e) => {
+            props.checkContractReview(e, setReviewState);
+            setReviewState(false);
+          }}
           onCancel={setReviewState}
           publicKey={props.publicKey}
           contract={props.contract}/>
       </div>}
       {nextPayment - now <= 0 && props.publicKey === props.contract.asset.recipientPublicKey && fundedUnits > 0 &&
-      (props.contract.asset.state === "ACTIVE" || props.contract.asset.state === "ACCEPTED") && request &&
+      (props.contract.asset.state === "ACTIVE" || props.contract.asset.state === "ACCEPTED") && props.request &&
       <Button onClick={() => {
-        setRequest(false);
+        props.setRequest(false);
         props.doRequest({contractPublicKey: props.contract.publicKey})
       }} type="button" className="btn-success btn-lg">
         Withdraw
       </Button>}
+      {props.publicKey === props.contract.asset.senderPublicKey && fundedUnits < props.contract.asset.unit.total &&
+      (props.contract.asset.state === "ACTIVE" || props.contract.asset.state === "ACCEPTED") && !props.fund && <Button onClick={() => {
+        props.fundInput.current.focus();
+      }}>Fund</Button>}
     </div>);
 }

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Progress, InputNumber } from "antd";
+import { Button, Progress, InputNumber, Input } from "antd";
 import Countdown from 'react-countdown';
 import './DashboardBox.less';
 import { usePayments } from "../../../hooks/payments";
 
-export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminate}) => {
+export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminate, request, setRequest, fundInput, setFund, fund}) => {
   const [
     paymentsReady,
     paymentsLeft,
@@ -13,15 +13,14 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
     now,
     fundedUnits,
   ] = usePayments(contract);
-  const [request, setRequest] = useState(true);
   const [units, setUnits] = useState(contract.asset.unit.total - fundedUnits);
   const [terminate, setTerminate] = useState(false);
-  const [fund, setFund] = useState(false);
   const next = new Date(new Date().getTime() + ((nextPayment - now) * 1000));
 
   useEffect(() => {
     setFund(false);
-  }, [fundedUnits]);
+    setRequest(true);
+  }, [fundedUnits, paymentsReady]);
 
   return (
     <div className="DashboardContainer">
@@ -40,11 +39,11 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
       (contract.asset.state === "ACTIVE" || contract.asset.state === "ACCEPTED") &&
       <div className="DashboardBox">
         <h2><Countdown date={next} key={next}>
-          {request && fundedUnits > 0 && <Button onClick={() => {
+          {fundedUnits > 0 && <Button onClick={() => {
             setRequest(false);
             doRequest({contractPublicKey: contract.publicKey})
-          }} type="button" className="btn-success btn-lg">
-            Request now
+          }} type="button" disabled={!request} className="btn-success btn-lg">
+            {request ? `Withdraw` : `Await confirmation`}
           </Button>}
         </Countdown></h2>
         Next payment
@@ -67,7 +66,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         }} type="button" className="btn-success btn-lg">
           Terminate contract
         </Button>}
-        {terminate && <h3>Waiting for blockchain acceptance</h3>}
+        {terminate && <h3>Await confirmation</h3>}
       </div>}
       {publicKey === contract.asset.senderPublicKey && fundedUnits < contract.asset.unit.total &&
       (contract.asset.state === "ACTIVE" || contract.asset.state === "ACCEPTED") &&
@@ -75,6 +74,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         <h2>Fund</h2>
         {!fund && <div><InputNumber
           className="InputDashboardFund"
+          ref={fundInput}
           precision={0}
           value={units}
           min={contract.asset.state === "ACCEPTED" ? contract.asset.unit.prepaid : 1}

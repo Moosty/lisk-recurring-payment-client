@@ -48,6 +48,7 @@ export const doReview = async (passphrase, data, api, setClose, cb) => {
           })
         })
         cb(false, data.errors);
+        setClose(true);
       }
     })
 }

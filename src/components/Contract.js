@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { ContractBox } from "./Contract-box";
 import { useContract } from "../hooks/contract";
 import './Contract.less';
@@ -16,8 +16,11 @@ export const Contract = ({
                          }) => {
 
   const [nonce, setNonce] = useState(0);
+  const [request, setRequest] = useState(true);
+  const [fund, setFund] = useState(false);
   const [contract, setContract] = useContract(() => {
   }, setNonce);
+  const fundInput = useRef(null);
 
   useEffect(() => {
     if (contractId) {
@@ -46,6 +49,11 @@ export const Contract = ({
           doFund={doFund}
           doRequest={doRequest}
           doTerminate={doTerminate}
+          setRequest={setRequest}
+          request={request}
+          setFund={setFund}
+          fund={fund}
+          fundInput={fundInput}
         />
       )
     });

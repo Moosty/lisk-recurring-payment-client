@@ -12,7 +12,7 @@ export const ContractBox = (props) => {
 
   const domRef = React.useRef();
 
-  const [isVisible, setVisible] = React.useState(false);
+  const [isVisible, setVisible] = React.useState(true);
   const [reviewIsOpen, setReviewState] = useState(false);
 
   useEffect(() => {
@@ -145,11 +145,18 @@ export const ContractBox = (props) => {
       </div>);
     } else if (props.box === "dashboard") {
       return (<div ref={domRef}>
-
-        <DashboardBox publicKey={props.publicKey}
-                      doFund={props.doFund}
-                      doTerminate={props.doTerminate}
-                      doRequest={props.doRequest} contract={props.contract}/>
+        <DashboardBox
+          publicKey={props.publicKey}
+          doFund={props.doFund}
+          doTerminate={props.doTerminate}
+          doRequest={props.doRequest}
+          contract={props.contract}
+          setRequest={props.setRequest}
+          request={props.request}
+          fundInput={props.fundInput}
+          setFund={props.setFund}
+          fund={props.fund}
+        />
       </div>);
     } else if (props.box === "contract") {
       return (<div ref={domRef} className={className}>
@@ -234,7 +241,17 @@ export const ContractBox = (props) => {
       return (<div ref={domRef} className={className}>
         <ContractItemIcon contract={props.contract}/>
         <ContractItemDetails contract={props.contract} publicKey={props.publicKey}/>
-        <ContractBoxItemActions doRequest={props.doRequest} contract={props.contract} publicKey={props.publicKey} checkContractReview={checkContractReview} />
+        <ContractBoxItemActions
+          doRequest={props.doRequest}
+          setRequest={props.setRequest}
+          request={props.request}
+          contract={props.contract}
+          publicKey={props.publicKey}
+          checkContractReview={checkContractReview}
+          fundInput={props.fundInput}
+          setFund={props.setFund}
+          fund={props.fund}
+        />
       </div>);
     } else {
       return <div ref={domRef}/>

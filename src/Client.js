@@ -66,6 +66,7 @@ export const Client = memo(({id, close}) => {
   }
 
   const checkReview = (data, setClose) => {
+    setClose(false);
     doReview(passphrase, data, api, setClose, resultReview)
   }
 
