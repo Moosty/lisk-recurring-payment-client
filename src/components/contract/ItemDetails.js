@@ -4,10 +4,13 @@ import { utils } from "@liskhq/lisk-transactions";
 import TimeAgo from 'react-time-ago';
 import { usePayments } from "../../hooks/payments";
 import './ItemDetails.less';
+import { useAccount } from "../../hooks/account";
 
 const {convertBeddowsToLSK} = utils;
 
 export const ContractItemDetails = (props) => {
+  const sender = useAccount(props.contract.asset.senderPublicKey);
+  const recipient = useAccount(props.contract.asset.recipientPublicKey);
   const [
     paymentsReady,
     paymentsLeft,
@@ -23,7 +26,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.senderPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Awaiting your review</span> :
-            <span className="ContractItemDetailsSubTitle">Awaiting sender review</span>}
+            <span className="ContractItemDetailsSubTitle">Awaiting review from {sender.username}</span>}
         </div>
       );
     case "RECIPIENT_REVIEW":
@@ -32,7 +35,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.recipientPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Awaiting your review</span> :
-            <span className="ContractItemDetailsSubTitle">Awaiting recipient review</span>}
+            <span className="ContractItemDetailsSubTitle">Awaiting review from {recipient.username}</span>}
         </div>
       );
     case "ACCEPTED":
@@ -41,7 +44,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.senderPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Awaiting funds from you</span> :
-            <span className="ContractItemDetailsSubTitle">Awaiting funds from sender</span>}
+            <span className="ContractItemDetailsSubTitle">Awaiting funds from {sender.username}</span>}
         </div>
       );
     case "ACTIVE":
@@ -58,7 +61,7 @@ export const ContractItemDetails = (props) => {
               `Contract is active` :
             props.contract.asset.senderPublicKey === props.publicKey ?
               `Awaiting funds from you` :
-              `Awaiting funds from sender`}
+              `Awaiting funds from ${sender.username}`}
           </span>
         </div>
       );
@@ -75,7 +78,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.recipientPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Contract is terminated by you</span> :
-            <span className="ContractItemDetailsSubTitle">Contract is terminated by recipient</span>}
+            <span className="ContractItemDetailsSubTitle">Contract is terminated by {sender.username}</span>}
         </div>
       );
     case "TERMINATED_SENDER":
@@ -84,7 +87,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.senderPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Contract is terminated by you</span> :
-            <span className="ContractItemDetailsSubTitle">Contract is terminated by sender</span>}
+            <span className="ContractItemDetailsSubTitle">Contract is terminated by {sender.username}</span>}
         </div>
       );
     default:
