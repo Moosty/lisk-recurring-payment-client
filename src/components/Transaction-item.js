@@ -1,12 +1,13 @@
 import React, { useEffect } from 'react';
 import TimeAgo from 'react-time-ago';
-import { Tooltip } from 'antd';
+import { Avatar, Tooltip } from 'antd';
 import { TransactionIcon } from "./transaction/icon";
 import { TransactionDetails } from "./transaction/Details";
 import { TransactionActions } from "./transaction/Actions";
 import './Transaction-item.less';
 import { useTimestamp } from "../hooks/timestamp";
 import { config } from "../config/config";
+import { DollarOutlined } from "@ant-design/icons";
 
 export const TransactionItem = (props) => {
 
@@ -46,6 +47,13 @@ export const TransactionItem = (props) => {
         </div>
       </Tooltip>);
   } else {
-    return (<div ref={domRef} className={className}>No transactions</div>);
+    return (<div ref={domRef} className={className}>
+      <Avatar className={"FaucetIcon"} icon={<DollarOutlined/>}/>
+      <div className="TransactionDetailsContainer">
+        <span className="TransactionDetailsTitle">Faucet transaction <i className="TransactionPending">(pending...)</i></span>
+        <span className="TransactionDetailsSubTitle">Wait for confirmation..</span>
+      </div>
+      <div/>
+    </div>);
   }
 }

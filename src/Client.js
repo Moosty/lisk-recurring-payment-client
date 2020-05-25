@@ -20,6 +20,7 @@ import { doRequest } from "./transactions/request";
 import { doFund } from "./transactions/fund";
 import { About } from "./components/About";
 import { Mnemonic } from "@liskhq/lisk-passphrase";
+import { config } from "./config/config";
 
 const Context = React.createContext({name: 'Default'});
 
@@ -41,6 +42,20 @@ export const Client = memo(({id, close}) => {
       setPublicKey(addressPublicKey.publicKey);
     }
   }, [loggedIn, passphrase])
+
+  const tryLogin = () => {
+    fetch(`${config.node}accounts?publicKey=${publicKey}`)
+      .then(result => result.json())
+      .then(data => {
+        if (!data || (data.data && data.data.length === 0)) {
+          doSprinkler(passphrase, name);
+        } else {
+          // do sprinkler transaction
+        }
+      })
+    setLoggedIn(true);
+
+  }
 
   const openCreate = () => {
     setCreate(!createIsOpen);
@@ -137,7 +152,7 @@ export const Client = memo(({id, close}) => {
     return (
         <Login passphrase={passphrase} username={name}
                setPassphrase={(value) => setPassphrase(value)}
-               setLogin={() => setLoggedIn(true)}
+               setLogin={() => tryLogin()}
                setUsername={(value) => setName(value)}
                id={id}/>
     );

@@ -1,9 +1,11 @@
 import { client } from '@moosty/lisk-sprinkler';
 import { config } from "../config/config";
 import { getAddressAndPublicKeyFromPassphrase } from "@liskhq/lisk-cryptography";
+import { getNonce } from "./helpers/nonce";
 
-export const doSprinkler = (passphrase, username, nonce) => {
+export const doSprinkler = async (passphrase, username) => {
   const {publicKey} = getAddressAndPublicKeyFromPassphrase(passphrase);
+  const nonce = await getNonce(publicKey);
   const tx = client.sprinkler({
     username: username.toLowerCase(),
     publicKey,

@@ -1,6 +1,6 @@
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const AntdDayjsWebpackPlugin = require('antd-dayjs-webpack-plugin');
-
+const { SourceMapDevToolPlugin } = require('webpack');
 module.exports = {
   module: {
     rules: [
@@ -53,5 +53,8 @@ module.exports = {
       filename: './index.html',
     }),
     new AntdDayjsWebpackPlugin(),
-  ],
+    new SourceMapDevToolPlugin({
+      filename: '[name].js.map',
+    }),
+],
 };
