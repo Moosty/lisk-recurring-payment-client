@@ -45,10 +45,15 @@ export const ContractItemDetails = (props) => {
       return (
         <div className="ContractItemDetailsContainer">
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
-          {props.contract.asset.recipientPublicKey === props.publicKey ?
-            <span className="ContractItemDetailsSubTitle">{(nextPayment - now) > 0 ? <span>Next payment <TimeAgo
-              date={next}/></span> : paymentsReady > 0 ? `You can withdraw payment(s)` : `Awaiting funds from sender`}</span> :
-            <span className="ContractItemDetailsSubTitle">Contract is active</span>}
+          <span className="ContractItemDetailsSubTitle">
+          {fundedUnits - props.contract.asset.payments > 0 && fundedUnits - props.contract.asset.payments >= paymentsReady ?
+            props.contract.asset.recipientPublicKey === props.publicKey ?
+              <span>Next payment <TimeAgo date={next}/></span> :
+              `Contract is active` :
+            props.contract.asset.senderPublicKey === props.publicKey ?
+              `Awaiting funds from you` :
+              `Awaiting funds from sender`}
+          </span>
         </div>
       );
     case "ENDED":
