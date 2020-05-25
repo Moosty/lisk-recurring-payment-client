@@ -44,13 +44,13 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
     form.setFieldsValue({
       recipient: "",
       sender: "",
-      title: "test",
+      title: "",
       unitAmount: 1,
       amount: "1.0000",
-      unitType: "MONTHS",
-      duration: 12,
-      prepaid: 6,
-      terminationFee: 2,
+      unitType: "",
+      duration: 0,
+      prepaid: 0,
+      terminationFee: 0,
     })
   }, [])
 
@@ -103,7 +103,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
         <Form.Item label="Recipient payments" >
           <FindUser setValue={setRecipient} value={recipient}/>
         </Form.Item>
-        <Form.Item label="A payment unit is every" style={{marginBottom: 0}}>
+        <Form.Item label="A payment will be every" style={{marginBottom: 0}}>
           <Form.Item name="unitAmount" style={{display: 'inline-block'}} rules={[
             {
               required: true,
@@ -126,7 +126,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
           </Form.Item>
         </Form.Item>
 
-        <Form.Item label="Contract duration in units">
+        <Form.Item label="Contract duration in payments">
           <Form.Item
             name="duration"
             noStyle
@@ -138,11 +138,11 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
           >
             <InputNumber min={1} precision={0} value={12}/>
           </Form.Item>
-          <span> &nbsp; Unit(s)</span>
+          <span> &nbsp; payment(s)</span>
         </Form.Item>
 
 
-        <Form.Item label="Payment amount per unit" style={{marginBottom: 0}}>
+        <Form.Item label="Token amount per payment" style={{marginBottom: 0}}>
           <Form.Item name="amount" style={{display: 'inline-block'}} rules={[
             {
               required: true,
@@ -150,10 +150,10 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
           ]}>
             <InputNumber min={0.0001} precision={4} value={2}/>
           </Form.Item>
-          <span> &nbsp; TKN every unit</span>
+          <span> &nbsp; TKN every payment</span>
         </Form.Item>
 
-        <Form.Item label="Termination fee" style={{marginBottom: 0}}>
+        <Form.Item label="Short fee" style={{marginBottom: 0}}>
           <Form.Item name="terminationFee" style={{display: 'inline-block'}} rules={[
             {
               required: true,
@@ -161,7 +161,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
           ]}>
             <InputNumber min={0} precision={0} value={1}/>
           </Form.Item>
-          <span> &nbsp; Unit(s)</span>
+          <span> &nbsp; payment(s)</span>
         </Form.Item>
 
         <Form.Item label="Minimal units to activate" style={{marginBottom: 0}}>
