@@ -35,8 +35,11 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         Payments
       </div>
       <div className="DashboardBox">
-        <Progress type="dashboard" percent={fundedUnits > 0 ? (fundedUnits / contract.asset.unit.total) * 100 : 0}
-                  format={() => `${fundedUnits}/${contract.asset.unit.total}`}/><br/>
+        <Progress
+          type="dashboard"
+          percent={fundedUnits > 0 ? (fundedUnits / contract.asset.unit.total) * 100 : 0}
+          format={() => `${fundedUnits} / ${contract.asset.unit.total}`}/>
+        {parseFloat(convertBeddowsToLSK((BigInt(contract.asset.unit.amount) * BigInt(fundedUnits)).toString())).toFixed(2)}TKN<br/>
         Funds
       </div>
       {publicKey === contract.asset.recipientPublicKey && fundedUnits > 0 &&
@@ -55,7 +58,8 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
       {publicKey === contract.asset.recipientPublicKey && contract.asset.state === "ACTIVE" && fundedUnits > 0 &&
       <div className="DashboardBox">
         <h2>{paymentsReady}</h2>
-        {paymentsReady > 0 && <i>{parseFloat(convertBeddowsToLSK((BigInt(paymentsReady) * BigInt(contract.asset.unit.amount)).toString())).toFixed(2)} TKN<br /></i>}
+        {paymentsReady > 0 &&
+        <i>{parseFloat(convertBeddowsToLSK((BigInt(paymentsReady) * BigInt(contract.asset.unit.amount)).toString())).toFixed(2)} TKN<br/></i>}
         Payments ready
       </div>}
       {contract.asset.state === "ACTIVE" && contract.asset.payments > 0 &&
