@@ -23,10 +23,10 @@ export const Footer = ({switchCreate, setView, currentView}) => {
           Contracts
         </Menu.Item>
         <Menu.Item key="create" icon={<AuditOutlined/>}>
-          Recurring Payment
+          Create Contract
         </Menu.Item>
         <Menu.Item key="about" icon={<QuestionCircleOutlined/>}>
-          About
+          Help
         </Menu.Item>
       </Menu>
     </div>);
