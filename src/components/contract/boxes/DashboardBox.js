@@ -1,7 +1,7 @@
 /* global BigInt */
 import React, { useEffect, useState } from 'react';
 import { utils } from "@liskhq/lisk-transactions";
-import { Button, Progress, InputNumber } from "antd";
+import { Button, Progress, InputNumber, Popconfirm } from "antd";
 import Countdown from 'react-countdown';
 import { usePayments } from "../../../hooks/payments";
 import './DashboardBox.less';
@@ -64,17 +64,27 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
       </div>}
       {contract.asset.state === "ACTIVE" && contract.asset.payments > 0 &&
       <div className="DashboardBox">
-        {!terminate && <Button onClick={() => {
-          setTerminate(true);
-          doTerminate({
-            contractPublicKey: contract.publicKey,
-            peerPublicKey: contract.asset.senderPublicKey === publicKey ?
-              contract.asset.recipientPublicKey :
-              contract.asset.senderPublicKey
-          })
-        }} type="button" className="btn-success btn-lg">
-          Terminate contract
-        </Button>}
+        {!terminate &&
+        <Popconfirm
+          title="Are you sure you want to terminate this contract?"
+          onConfirm={() => {
+            setTerminate(true);
+            doTerminate({
+              contractPublicKey: contract.publicKey,
+              peerPublicKey: contract.asset.senderPublicKey === publicKey ?
+                contract.asset.recipientPublicKey :
+                contract.asset.senderPublicKey
+            })
+          }}
+          onCancel={() => {
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button type="button" className="btn-success btn-lg">
+            Terminate contract
+          </Button>
+        </Popconfirm>}
         {terminate && <h3>Await confirmation</h3>}
       </div>}
       {publicKey === contract.asset.senderPublicKey && fundedUnits < contract.asset.unit.total &&
@@ -89,15 +99,26 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
           min={contract.asset.state === "ACCEPTED" ? contract.asset.unit.prepaid : 1}
           max={(contract.asset.unit.total - fundedUnits)}
           onChange={setUnits}/>
-          <Button onClick={() => {
-            setFund(true);
-            doFund({
-              contractPublicKey: contract.publicKey,
-              units: units
-            })
-          }} type="button"
-                  className="btn-success btn-lg">Payments
-          </Button></div>}
+          <Popconfirm
+            title="Are you sure you want to fund this contract?"
+            onConfirm={() => {
+              setFund(true);
+              doFund({
+                contractPublicKey: contract.publicKey,
+                units: units
+              })
+            }}
+            onCancel={() => {
+            }}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button
+              type="button"
+              className="btn-success btn-lg">Payments
+            </Button>
+          </Popconfirm>
+        </div>}
         {fund && <h3>Await confirmation</h3>}
       </div>}
     </div>
