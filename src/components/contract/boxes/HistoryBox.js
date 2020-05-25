@@ -18,9 +18,9 @@ export const HistoryBox = (props) => {
   }
   return (
     <div style={{width: "100%"}}>
-      <Timeline mode={`alternate`} style={{width: "100%"}}>
+      {items.length > 0 && <Timeline mode={`alternate`} style={{width: "100%"}}>
         {items}
-      </Timeline>
+      </Timeline>}
     </div>
   );
 }

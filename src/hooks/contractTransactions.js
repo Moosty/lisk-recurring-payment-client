@@ -4,6 +4,7 @@ import { config } from "../config/config";
 export const useContractTransactions = (publicKey) => {
 
   const [transactions, setTransactions] = useState([]);
+  const [update, setUpdate] = useState(false);
 
   useEffect(() => {
     if (publicKey) {
@@ -13,9 +14,12 @@ export const useContractTransactions = (publicKey) => {
           if (data && data && data.length > 0) {
             setTransactions(data);
           }
+          setTimeout(() => {
+            setUpdate(!update);
+          }, config.refreshInterval)
         });
     }
-  }, [publicKey]);
+  }, [publicKey, update]);
 
   return [
     transactions
