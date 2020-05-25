@@ -38,7 +38,7 @@ export const ContractBoxItemActions = (props) => {
           contract={props.contract}/>
       </div>}
       {nextPayment - now <= 0 && props.publicKey === props.contract.asset.recipientPublicKey && fundedUnits > 0 &&
-      (props.contract.asset.state === "ACTIVE" || props.contract.asset.state === "ACCEPTED") && props.request &&
+      (props.contract.asset.state === "ACTIVE" || props.contract.asset.state === "ACCEPTED") && props.request && paymentsReady > 0 &&
       <Button onClick={() => {
         props.setRequest(false);
         props.doRequest({contractPublicKey: props.contract.publicKey})

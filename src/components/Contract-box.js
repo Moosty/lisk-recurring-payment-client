@@ -70,12 +70,12 @@ export const ContractBox = (props) => {
   if (props.contract && props.box === "status") {
     switch (props.contract.asset.state) {
       case "SENDER_REVIEW":
-        action = props.contract.asset.senderPublicKey === props.publicKey;
+        // action = props.contract.asset.senderPublicKey === props.publicKey;
         stateClass += props.contract.asset.senderPublicKey === props.publicKey ? "review" : "review-other";
         status = props.contract.asset.senderPublicKey === props.publicKey ? "You need to review contract" : "Sender needs to review contract";
         break;
       case "RECIPIENT_REVIEW":
-        action = props.contract.asset.recipientPublicKey === props.publicKey;
+        // action = props.contract.asset.recipientPublicKey === props.publicKey;
         stateClass += props.contract.asset.recipientPublicKey === props.publicKey ? "review" : "review-other";
         status = props.contract.asset.recipientPublicKey === props.publicKey ? "You need to review contract" : "Recipient needs to review contract";
         break;

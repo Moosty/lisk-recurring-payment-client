@@ -48,8 +48,8 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
       unitAmount: 1,
       amount: "1.0000",
       unitType: "",
-      duration: 0,
-      prepaid: 0,
+      duration: 1,
+      prepaid: 1,
       terminationFee: 0,
     })
   }, [])
@@ -172,7 +172,7 @@ export const CreateForm = ({visible, onCreate, onCancel, publicKey}) => {
           ]}>
             <InputNumber min={1} precision={0} initialValue={1}/>
           </Form.Item>
-          <span> &nbsp; Unit(s)</span>
+          <span> &nbsp; payment(s)</span>
         </Form.Item>
 
         <Form.Item name="data" label="Note">

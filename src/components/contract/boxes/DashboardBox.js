@@ -1,8 +1,12 @@
+/* global BigInt */
 import React, { useEffect, useState } from 'react';
-import { Button, Progress, InputNumber, Input } from "antd";
+import { utils } from "@liskhq/lisk-transactions";
+import { Button, Progress, InputNumber } from "antd";
 import Countdown from 'react-countdown';
-import './DashboardBox.less';
 import { usePayments } from "../../../hooks/payments";
+import './DashboardBox.less';
+
+const {convertBeddowsToLSK} = utils;
 
 export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminate, request, setRequest, fundInput, setFund, fund}) => {
   const [
@@ -31,7 +35,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         Payments
       </div>
       <div className="DashboardBox">
-        <Progress type="dashboard" percent={fundedUnits > 0 ? (contract.asset.unit.total / fundedUnits) * 100 : 0}
+        <Progress type="dashboard" percent={fundedUnits > 0 ? (fundedUnits / contract.asset.unit.total) * 100 : 0}
                   format={() => `${fundedUnits}/${contract.asset.unit.total}`}/><br/>
         Funds
       </div>
@@ -42,15 +46,16 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
           {fundedUnits > 0 && <Button onClick={() => {
             setRequest(false);
             doRequest({contractPublicKey: contract.publicKey})
-          }} type="button" disabled={!request} className="btn-success btn-lg">
-            {request ? `Withdraw` : `Await confirmation`}
+          }} type="button" disabled={paymentsReady === 0 || !request} className="btn-success btn-lg">
+            {paymentsReady === 0 ? `Waiting for funds` : request ? `Withdraw` : `Await confirmation`}
           </Button>}
         </Countdown></h2>
         Next payment
       </div>}
       {publicKey === contract.asset.recipientPublicKey && contract.asset.state === "ACTIVE" && fundedUnits > 0 &&
       <div className="DashboardBox">
-        <h1>{paymentsReady}</h1>
+        <h2>{paymentsReady}</h2>
+        {paymentsReady > 0 && <i>{parseFloat(convertBeddowsToLSK((BigInt(paymentsReady) * BigInt(contract.asset.unit.amount)).toString())).toFixed(2)} TKN<br /></i>}
         Payments ready
       </div>}
       {contract.asset.state === "ACTIVE" && contract.asset.payments > 0 &&
@@ -89,7 +94,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
           }} type="button"
                   className="btn-success btn-lg">Payments
           </Button></div>}
-        {fund && <h3>Waiting for blockchain acceptance</h3>}
+        {fund && <h3>Await confirmation</h3>}
       </div>}
     </div>
   );

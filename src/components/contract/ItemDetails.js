@@ -37,7 +37,7 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.senderPublicKey === props.publicKey ?
             <span className="ContractItemDetailsSubTitle">Awaiting funds from you</span> :
-          <span className="ContractItemDetailsSubTitle">Awaiting funds from sender</span>}
+            <span className="ContractItemDetailsSubTitle">Awaiting funds from sender</span>}
         </div>
       );
     case "ACTIVE":
@@ -46,7 +46,8 @@ export const ContractItemDetails = (props) => {
         <div className="ContractItemDetailsContainer">
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
           {props.contract.asset.recipientPublicKey === props.publicKey ?
-            <span className="ContractItemDetailsSubTitle">{(nextPayment - now) > 0 ? <p>Next payment <TimeAgo date={next}/></p>: `Payment pending`}</span> :
+            <span className="ContractItemDetailsSubTitle">{(nextPayment - now) > 0 ? <span>Next payment <TimeAgo
+              date={next}/></span> : paymentsReady > 0 ? `You can withdraw payment(s)` : `Awaiting funds from sender`}</span> :
             <span className="ContractItemDetailsSubTitle">Contract is active</span>}
         </div>
       );
@@ -54,7 +55,7 @@ export const ContractItemDetails = (props) => {
       return (
         <div className="ContractItemDetailsContainer">
           <span className="ContractItemDetailsTitle">Contract: <b>{props.contract.asset.title}</b></span>
-          <span className="ContractItemDetailsSubTitle">Contract is ended</span>
+          <span className="ContractItemDetailsSubTitle">Contract has ended</span>
         </div>
       );
     case "TERMINATED_RECIPIENT":
