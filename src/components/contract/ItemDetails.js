@@ -1,7 +1,11 @@
+/* global BigInt */
 import React from 'react';
-import './ItemDetails.less';
+import { utils } from "@liskhq/lisk-transactions";
 import TimeAgo from 'react-time-ago';
 import { usePayments } from "../../hooks/payments";
+import './ItemDetails.less';
+
+const {convertBeddowsToLSK} = utils;
 
 export const ContractItemDetails = (props) => {
   const [
@@ -48,7 +52,9 @@ export const ContractItemDetails = (props) => {
           <span className="ContractItemDetailsSubTitle">
           {fundedUnits - props.contract.asset.payments > 0 && fundedUnits - props.contract.asset.payments >= paymentsReady ?
             props.contract.asset.recipientPublicKey === props.publicKey ?
-              <span>Next payment <TimeAgo date={next}/></span> :
+              (nextPayment - now) < 0 ?
+                <span>{parseFloat(convertBeddowsToLSK((BigInt(props.contract.asset.unit.amount) * BigInt(fundedUnits - props.contract.asset.payments)).toString())).toFixed(0)}TKN ready for payment</span>:
+                <span>Next payment <TimeAgo date={next}/></span> :
               `Contract is active` :
             props.contract.asset.senderPublicKey === props.publicKey ?
               `Awaiting funds from you` :
