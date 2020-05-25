@@ -29,11 +29,7 @@ export const useContracts = () => {
         .then(result => result.json())
         .then(data => {
             if (data && data.length > 0) {
-              data.map(async contract => {
-                if (_.findIndex(contractsRef.current, {publicKey: contract.publicKey}) === -1) {
-                  setContracts([contract, ...contractsRef.current]);
-                }
-              });
+              setContracts(data);
             }
             setTimer(setTimeout(() => {
               loadContracts();

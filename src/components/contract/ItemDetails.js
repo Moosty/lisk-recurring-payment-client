@@ -56,7 +56,7 @@ export const ContractItemDetails = (props) => {
           {fundedUnits - props.contract.asset.payments > 0 && fundedUnits - props.contract.asset.payments >= paymentsReady ?
             props.contract.asset.recipientPublicKey === props.publicKey ?
               (nextPayment - now) < 0 ?
-                <span>{parseFloat(convertBeddowsToLSK((BigInt(props.contract.asset.unit.amount) * BigInt(fundedUnits - props.contract.asset.payments)).toString())).toFixed(0)}TKN ready for payment</span>:
+                <span>{parseFloat(convertBeddowsToLSK((BigInt(props.contract.asset.unit.amount) * BigInt(paymentsReady)).toString())).toFixed(0)}TKN ready for payment</span>:
                 <span>Next payment <TimeAgo date={next}/></span> :
               `Contract is active` :
             props.contract.asset.senderPublicKey === props.publicKey ?
