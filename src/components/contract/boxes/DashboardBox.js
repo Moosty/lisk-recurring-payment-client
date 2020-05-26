@@ -32,15 +32,15 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
         <Progress type="dashboard"
                   percent={contract.asset.payments > 0 ? (contract.asset.payments / contract.asset.unit.total) * 100 : 0}
                   format={() => `${contract.asset.payments}/${contract.asset.unit.total}`}/><br/>
-        Payments
+        <span className="DaschboardboxTitle">Payments</span>
       </div>
       <div className="DashboardBox">
         <Progress
           type="dashboard"
           percent={fundedUnits > 0 ? (fundedUnits / contract.asset.unit.total) * 100 : 0}
-          format={() => `${fundedUnits} / ${contract.asset.unit.total}`}/>
+          format={() => `${fundedUnits} / ${contract.asset.unit.total}`}/> <span className="DaschboardboxTitle">
         {parseFloat(convertBeddowsToLSK((BigInt(contract.asset.unit.amount) * BigInt(fundedUnits)).toString())).toFixed(2)}TKN<br/>
-        Funds
+        Funds</span>
       </div>
       {publicKey === contract.asset.recipientPublicKey && fundedUnits > 0 &&
       (contract.asset.state === "ACTIVE" || contract.asset.state === "ACCEPTED") &&
@@ -53,14 +53,14 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
             {paymentsReady === 0 ? `Waiting for funds` : request ? `Withdraw` : `Await confirmation`}
           </Button>}
         </Countdown></h2>
-        Next payment
+         <span className="DaschboardboxTitle">Next payment</span>
       </div>}
       {publicKey === contract.asset.recipientPublicKey && contract.asset.state === "ACTIVE" && fundedUnits > 0 &&
       <div className="DashboardBox">
         <h2>{paymentsReady}</h2>
         {paymentsReady > 0 &&
-        <i>{parseFloat(convertBeddowsToLSK((BigInt(paymentsReady) * BigInt(contract.asset.unit.amount)).toString())).toFixed(2)} TKN<br/></i>}
-        Payments ready
+        <span className="DaschboardboxTitle">{parseFloat(convertBeddowsToLSK((BigInt(paymentsReady) * BigInt(contract.asset.unit.amount)).toString())).toFixed(2)} TKN<br/></span>}
+        <span className="DaschboardboxTitle">Payments ready</span>
       </div>}
       {contract.asset.state === "ACTIVE" && contract.asset.payments > 0 &&
       <div className="DashboardBox">
@@ -119,7 +119,7 @@ export const DashboardBox = ({contract, doRequest, publicKey, doFund, doTerminat
             </Button>
           </Popconfirm>
         </div>}
-        {fund && <h3>Await confirmation</h3>}
+        {fund && <span className="DaschboardboxTitle>">Await confirmation</span>}
       </div>}
     </div>
   );
