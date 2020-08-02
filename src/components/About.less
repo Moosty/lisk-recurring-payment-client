@@ -1,0 +1,31 @@
+@import "../variables";
+
+.AboutContainer {
+  position: relative;
+}
+
+.About {
+  position: absolute;
+  top: 0;
+  height: @client-content-height - 6vh;
+  width: 100%;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  text-align: left;
+  padding: 1em;
+}
+
+.About::-webkit-scrollbar {
+  width: 0.8rem;
+  box-shadow: none !important;
+  background-color: #5f9ea000;
+}
+
+.About::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+.About::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf8f;
+  border-radius: 5px;
+}

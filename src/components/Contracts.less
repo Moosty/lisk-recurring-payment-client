@@ -1,0 +1,42 @@
+@import "../variables";
+
+.Contracts-container {
+  position: relative;
+}
+
+.Contracts {
+  position: absolute;
+  top: -30px;
+  padding-top: 0px;
+  padding-bottom: 1vh;
+  height: @client-content-height;
+  width: 100%;
+  background: rgba(0,0,0,0);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.ContractItem {
+  margin: .3em;
+  height: 30px;
+  background: white;
+  border-radius: 5px;
+  -webkit-box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+  -moz-box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+  box-shadow: 3px 5px 5px 0px rgba(125,125,125,0.26);
+}
+
+.Contracts::-webkit-scrollbar {
+  width: 0.8rem;
+  box-shadow: none !important;
+  background-color: #5f9ea000;
+}
+
+.Contracts::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+.Contracts::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf8f;
+  border-radius: 5px;
+}

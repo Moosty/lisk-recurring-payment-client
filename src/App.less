@@ -1,27 +1,96 @@
-@import '~antd/dist/antd.less';
+//@import '~antd/dist/antd.less';
+@import './variables';
 
-/*
-variables to override:
- https://github.com/ant-design/ant-design/blob/master/components/style/themes/default.less
- */
-@primary-color: #1890ff;
-@link-color: #1890ff;
-@success-color: #52c41a;
-@warning-color: #faad14;
-@error-color: #f5222d;
-@font-size-base: 14px;
-@heading-color: rgb(12, 54, 125);
-@text-color: rgba(42, 41, 41, 0.65);
-@text-color-secondary: rgba(0, 0, 0, 0.45);
-@disabled-color: rgba(0, 0, 0, 0.25);
-@border-radius-base: 4px;
-@border-color-base: #575151;
-@box-shadow-base: 0 2px 8px rgba(0, 0, 0, 0.15);
+.Wallet {
+  @color1: #373b44;
+  @color2: #373b44;
+  background: @color1;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, @color1, @color2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, @color1, @color2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
 
-@layout-header-background: #71b6fd;
-@layout-header-height: 180px;
-@layout-header-padding: 0 50px;
-@layout-header-color: @text-color;
+.Wallet-0 {
+  @color1: #00B4DB;
+  @color2: #0083B0;
+  background: @color1;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, @color1, @color2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, @color1, @color2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .ant-btn {
+    border-color: @color1;
+    color: @color1;
+
+  }
+  .ContractHeader {
+    background-color: @color1;
+  }
+
+}
+
+.Wallet-1 {
+  @color1: #F50057;
+  @color2: #F50057;
+  background: @color1;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, @color1, @color2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, @color1, @color2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .ant-btn {
+    border-color: @color1;
+    color: @color1;
+
+  }
+}
+
+.Wallet-2 {
+  @color1: #FFC400;
+  @color2: #FFC400;
+  background: @color1;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, @color1, @color2);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, @color1, @color2); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  .ant-btn {
+    border-color: @color1;
+    color: @color1;
+
+  }
+}
+
+.Wallet-3 {
+  @color1: rgb(48, 155, 248);
+  @color2: rgb(123, 18, 18);
+  border-radius: 5px;
+  background: @color1;
+  background: -moz-linear-gradient(-45deg, @color1 0%, @color2 100%);
+  background: -webkit-gradient(left top, right bottom, color-stop(0%, @color1), color-stop(100%, @color2));
+  background: -webkit-linear-gradient(-45deg, @color1 0%, @color2 100%);
+  background: -o-linear-gradient(-45deg, @color1 0%, @color2 100%);
+  background: -ms-linear-gradient(-45deg, @color1 0%, @color2 100%);
+  background: linear-gradient(135deg, @color1 0%, @color2 100%);
+}
+
+
+.Box {
+  position: relative;
+  width: @client-width;
+  min-width: @client-width;
+  height: @client-height;
+  min-height: @client-height;
+  max-height: @client-height;
+  padding: 0;
+  margin: 2vw;
+  border-radius: 5px;
+
+  -webkit-box-shadow: 3px 5px 15px 0px rgba(125,125,125,0.86);
+  -moz-box-shadow: 3px 5px 15px 0px rgba(125,125,125,0.86);
+  box-shadow: 3px 5px 15px 0px rgba(125,125,125,0.86);
+}
+
+.Close {
+  position: absolute!important;
+  right: 5px;
+}
+
+.ant-avatar.ant-avatar-icon > .anticon {
+  top: -4px;
+  position: relative;
+}
 
 .ant-list-split .ant-list-item {
   border-bottom: 1px solid #fff;
@@ -31,13 +100,18 @@ variables to override:
   padding: 0;
 }
 
-.App {
-  text-align: center;
+.Login {
+  color: @heading-color;
+  width: 100%;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.Login input {
+  //margin-bottom: .5em;
+}
+
+.App {
+  text-align: center;
+  color: #0c152e;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -52,9 +126,9 @@ variables to override:
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: left;
   font-size: calc(10px + 1vmin);
-  color: white;
+  color: #0c152e;
 }
 
 .ant-layout-header {
@@ -67,15 +141,15 @@ variables to override:
 .ant-statistic {
   margin: 0.5em;
 }
-
-.ant-statistic-content {
-    color: #fafafa;
-    font-size: 12px;
-    line-height: 1rem;
-}
-.ant-statistic-content-value {
-  font-size: 16px;
-}
+//
+//.ant-statistic-content {
+//    color: #fafafa;
+//    font-size: 12px;
+//    line-height: 1rem;
+//}
+//.ant-statistic-content-value {
+//  font-size: 16px;
+//}
 
 .ant-statistic-title {
     margin-bottom: 4px;
@@ -98,10 +172,6 @@ variables to override:
     text-align: left;
 }
 
-.Wallet {
-  margin: 2vw;
-}
-
 .App-link {
   color: #61dafb;
 }
@@ -115,8 +185,124 @@ variables to override:
   }
 }
 
-.ant-list-item-meta-description {
-    color: rgba(0, 0, 0, 0.45);
-    font-size: 10px;
-    line-height: 0.2rem;
+//.ant-list-item-meta-description {
+//    color: rgba(0, 0, 0, 0.45);
+//    font-size: 10px;
+//    line-height: 0.2rem;
+//}
+
+.btn3d {
+  position: relative;
+  top: -6px;
+  border: 0;
+  transition: all 40ms linear;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 2px;
+  margin-right: 2px;
+}
+
+.btn3d:active:focus,
+.btn3d:focus:hover,
+.btn3d:focus {
+  -moz-outline-style: none;
+  outline: medium none;
+}
+
+.btn3d:active,
+.btn3d.active {
+  top: 2px;
+}
+
+.btn3d.btn-white {
+  color: #666666;
+  box-shadow: 0 0 0 1px #ebebeb inset, 0 0 0 2px rgba(255, 255, 255, 0.10) inset, 0 8px 0 0 #f5f5f5, 0 8px 8px 1px rgba(0, 0, 0, .2);
+  background-color: #fff;
+}
+
+.btn3d.btn-white:active,
+.btn3d.btn-white.active {
+  color: #666666;
+  box-shadow: 0 0 0 1px #ebebeb inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, .1);
+  background-color: #fff;
+}
+
+.btn3d.btn-default {
+  color: #666666;
+  box-shadow: 0 0 0 1px #ebebeb inset, 0 0 0 2px rgba(255, 255, 255, 0.10) inset, 0 8px 0 0 #BEBEBE, 0 8px 8px 1px rgba(0, 0, 0, .2);
+  background-color: #f9f9f9;
+}
+
+.btn3d.btn-default:active,
+.btn3d.btn-default.active {
+  color: #666666;
+  box-shadow: 0 0 0 1px #ebebeb inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, .1);
+  background-color: #f9f9f9;
+}
+
+.btn3d.btn-primary {
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #4D5BBE, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #4274D7;
+}
+
+.btn3d.btn-primary:active,
+.btn3d.btn-primary.active {
+  box-shadow: 0 0 0 1px #417fbd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #4274D7;
+}
+
+.btn3d.btn-success {
+  box-shadow: 0 0 0 1px #31c300 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #5eb924, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #78d739;
+}
+
+.btn3d.btn-success:active,
+.btn3d.btn-success.active {
+  box-shadow: 0 0 0 1px #30cd00 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #78d739;
+}
+
+.btn3d.btn-info {
+  box-shadow: 0 0 0 1px #00a5c3 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #348FD2, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #39B3D7;
+}
+
+.btn3d.btn-info:active,
+.btn3d.btn-info.active {
+  box-shadow: 0 0 0 1px #00a5c3 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #39B3D7;
+}
+
+.btn3d.btn-warning {
+  box-shadow: 0 0 0 1px #d79a47 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #D79A34, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #FEAF20;
+}
+
+.btn3d.btn-warning:active,
+.btn3d.btn-warning.active {
+  box-shadow: 0 0 0 1px #d79a47 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #FEAF20;
+}
+
+.btn3d.btn-danger {
+  box-shadow: 0 0 0 1px #b93802 inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #AA0000, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #D73814;
+}
+
+.btn3d.btn-danger:active,
+.btn3d.btn-danger.active {
+  box-shadow: 0 0 0 1px #b93802 inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #D73814;
+}
+
+.btn3d.btn-magick {
+  color: #fff;
+  box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 2px rgba(255, 255, 255, 0.15) inset, 0 8px 0 0 #9823d5, 0 8px 8px 1px rgba(0, 0, 0, 0.5);
+  background-color: #bb39d7;
+}
+
+.btn3d.btn-magick:active,
+.btn3d.btn-magick.active {
+  box-shadow: 0 0 0 1px #9a00cd inset, 0 0 0 1px rgba(255, 255, 255, 0.15) inset, 0 1px 3px 1px rgba(0, 0, 0, 0.3);
+  background-color: #bb39d7;
 }

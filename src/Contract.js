@@ -1,7 +1,6 @@
 import React from "react";
 import _ from 'lodash';
-import { List, Button, Skeleton, Avatar, Icon, Typography, Progress } from 'antd';
-import reqwest from 'reqwest';
+import { List, Button, Skeleton, Avatar, Typography, Progress } from 'antd';
 import { ContainerOutlined, HistoryOutlined, DollarOutlined,AuditOutlined, } from '@ant-design/icons';
 
 import './Wallet.less';

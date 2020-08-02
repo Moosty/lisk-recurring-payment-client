@@ -1,0 +1,32 @@
+@import '../variables';
+
+.ContractContainer {
+  position: relative;
+}
+
+.ContractContent {
+  position: absolute;
+  top: -30px;
+  padding-top: 0px;
+  padding-bottom: 2vh;
+  height: @client-content-height;
+  width: 100%;
+  background: rgba(0,0,0,0);
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.ContractContent::-webkit-scrollbar {
+  width: 0.3rem;
+  box-shadow: none !important;
+  background-color: #5f9ea000;
+}
+
+.ContractContent::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+}
+
+.ContractContent::-webkit-scrollbar-thumb {
+  background-color: #dfdfdf8f;
+  border-radius: 5px;
+}
